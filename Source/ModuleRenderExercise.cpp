@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleRenderExercise.h"
+#include "ModuleProgram.h"
 #include "ModuleWindow.h"
 #include "SDL.h"
 #include "gl/glew.h"
@@ -58,7 +59,6 @@ update_status ModuleRenderExercise::PreUpdate()
 	int width, height;
 	SDL_GetWindowSize(App->window->window, &width, &height);
 	glViewport(0, 0, width, height);
-	//Quién crea el vertex buffer?
 	glClearColor(0.5f, 0.3f, 0.6f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -75,11 +75,14 @@ update_status ModuleRenderExercise::Update()
 	//glVertex3f(-1.0f, -1.0f, 1.0f); 
 	//glEnd();
 
+	
 	glBindBuffer(GL_ARRAY_BUFFER, vboTri);
 	glEnableVertexAttribArray(0);
 	// size = 3 float per vertex
 	// stride = 0 is equivalent to stride = sizeof(float)*3
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+	glUseProgram(App->program->program_id);
 	// 1 triangle to draw = 3 vertices
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 

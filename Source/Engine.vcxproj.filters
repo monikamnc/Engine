@@ -24,7 +24,7 @@
     <ClInclude Include="ModuleEditor.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="vertex.glsl" />
-    <None Include="fragment.glsl" />
+    <None Include="..\Game\fragment.glsl" />
+    <None Include="..\Game\vertex.glsl" />
   </ItemGroup>
 </Project>

@@ -24,10 +24,11 @@ public:
 	bool CleanUp();
 
 public:
+
+	ModuleRenderExercise* renderExercise = nullptr;
 	ModuleRender* renderer = nullptr;
 	ModuleWindow* window = nullptr;
 	ModuleInput* input = nullptr;
-	ModuleRenderExercise* renderExercise = nullptr;
 	ModuleEditor* editor = nullptr;
 	ModuleProgram* program = nullptr;
 
