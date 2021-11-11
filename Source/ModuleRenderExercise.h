@@ -13,8 +13,14 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+	inline void* getContext();
+
 private:
 	void* contextExercise;
 	unsigned vboTri;
 };
 
+inline void* ModuleRenderExercise::getContext()
+{
+	return contextExercise;
+}

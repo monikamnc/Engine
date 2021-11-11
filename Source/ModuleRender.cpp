@@ -87,3 +87,8 @@ void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
 }
 
+//inline void* ModuleRender::getContext()
+//{
+//	return context;
+//}
+

@@ -27,6 +27,9 @@ public:
 
 	//The surface contained by the window
 	SDL_Surface* screen_surface = NULL;
+
+
+	bool show_another_window = true;
 };
 
 #endif // __ModuleWindow_H__

@@ -3,7 +3,11 @@
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleRenderExercise.h"
+#include "ModuleEditor.h"
 #include "SDL/include/SDL.h"
+#include "imgui.h"
+#include "imgui_impl_sdl.h"
+#include "imgui_impl_opengl3.h"
 
 ModuleInput::ModuleInput()
 {}
@@ -35,6 +39,7 @@ update_status ModuleInput::Update()
 
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
+        ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
         switch (sdlEvent.type)
         {
             case SDL_QUIT:
@@ -45,6 +50,8 @@ update_status ModuleInput::Update()
                 break;
         }
     }
+
+    
 
     keyboard = SDL_GetKeyboardState(NULL);
 

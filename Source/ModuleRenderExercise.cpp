@@ -5,6 +5,9 @@
 #include "ModuleWindow.h"
 #include "SDL.h"
 #include "gl/glew.h"
+#include "imgui.h"
+#include "imgui_impl_sdl.h"
+#include "imgui_impl_opengl3.h"
 
 ModuleRenderExercise::ModuleRenderExercise()
 {
@@ -74,8 +77,9 @@ update_status ModuleRenderExercise::Update()
 	//glVertex3f(1.0f, -1.0f, 1.0f); 
 	//glVertex3f(-1.0f, -1.0f, 1.0f); 
 	//glEnd();
-
 	
+
+
 	glBindBuffer(GL_ARRAY_BUFFER, vboTri);
 	glEnableVertexAttribArray(0);
 	// size = 3 float per vertex
@@ -85,6 +89,22 @@ update_status ModuleRenderExercise::Update()
 	glUseProgram(App->program->program_id);
 	// 1 triangle to draw = 3 vertices
 	glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	// Start the Dear ImGui frame
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
+	ImGui::ShowDemoWindow(&App->window->show_another_window);
+
+
+	ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+
+	ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+	ImGui::Checkbox("Another Window", &App->window->show_another_window);
+	ImGui::End();
+
+	// Rendering
+	ImGui::Render();
 
 	return UPDATE_CONTINUE;
 }
