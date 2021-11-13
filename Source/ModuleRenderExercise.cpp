@@ -99,12 +99,13 @@ update_status ModuleRenderExercise::Update()
 
 	ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
-	ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+	ImGui::Text("Soy una ventanita feliz ^-^.");               // Display some text (you can use a format strings too)
 	ImGui::Checkbox("Another Window", &App->window->show_another_window);
 	ImGui::End();
 
 	// Rendering
 	ImGui::Render();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	return UPDATE_CONTINUE;
 }
