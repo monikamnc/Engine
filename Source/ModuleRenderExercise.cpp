@@ -48,7 +48,12 @@ bool ModuleRenderExercise::Init()
 	glEnable(GL_CULL_FACE); // Enable cull backward faces
 	glFrontFace(GL_CCW); // Front faces will be counter clockwise
 
-	float vtx_data[] = { -1.0f, -1.0f, 0.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f };
+	float vtx_data[] = { -1.0f, 1.0f, 0.0f, 
+						1.0f, -1.0f, 0.0f, 
+						1.0f, 1.0f, 0.0f,
+						-1.0f, -1.0f, 0.0f,
+						1.0f, -1.0f, 0.0f, 
+						-1.0f, 1.0f, 0.0f, };
 	
 	glGenBuffers(1, &vboTri);
 	glBindBuffer(GL_ARRAY_BUFFER, vboTri); // set vbo active
@@ -87,20 +92,26 @@ update_status ModuleRenderExercise::Update()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 	glUseProgram(App->program->program_id);
-	// 1 triangle to draw = 3 vertices
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	// 2 triangle to draw = 6 vertices
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	
 
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
-	ImGui::ShowDemoWindow(&App->window->show_another_window);
+	
+	//ImGui::ShowDemoWindow(&App->window->show_another_window); //Demo Window
 
 
-	ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+	ImGui::Begin("Console");                          // Console Window
 
-	ImGui::Text("Soy una ventanita feliz ^-^.");               // Display some text (you can use a format strings too)
-	ImGui::Checkbox("Another Window", &App->window->show_another_window);
+	ImGui::Text("Console LOG");               // Display some text (you can use a format strings too)
+	ImGui::End();
+
+	ImGui::Begin("FrameRate");                          // FPS Window
+
+	ImGui::Text("FrameRate LOG");               // Display some text (you can use a format strings too)
 	ImGui::End();
 
 	// Rendering
