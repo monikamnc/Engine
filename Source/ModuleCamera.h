@@ -1,8 +1,7 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-#include "MathGeoLib/include/Geometry/Frustum.h"
-
+#include "MathGeoLib/Geometry/Frustum.h"
 
 class ModuleCamera : public Module
 {

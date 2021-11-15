@@ -44,36 +44,36 @@ bool ModuleRenderExercise::Init()
 		return false;
 	}
 
-	ilInit();
+	//ilInit();
 
-	ilGenImages(1, &textureId); // Generation of one image name
-	ilBindImage(textureId);
+	//ilGenImages(1, &textureId); // Generation of one image name
+	//ilBindImage(textureId);
 
-	textureOK = ilLoadImage("Lenna.png");
-	if (textureOK) /* If no error occured: */
-	{
-		textureOK = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE); /* Convert every colour component into unsigned byte. If your image contains alpha channel you can replace IL_RGB with IL_RGBA */
-		if (!textureOK)
-		{
-			/* Error occured */
-			LOG("Error on converting texture.");
-			SDL_Quit();
-			return false;
-		}
-		glGenTextures(1, &imageID); /* Texture name generation */
-		glBindTexture(GL_TEXTURE_2D, imageID); /* Binding of texture name */
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); /* We will use linear interpolation for magnification filter */
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); /* We will use linear interpolation for minifying filter */
-		glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_BPP), ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData()); /* Texture specification */
-		glActiveTexture(0);
-	}
-	else
-	{
-		/* Error occured */
-		LOG("Error on loading texture.");
-		SDL_Quit();
-		return false;
-	}
+	//textureOK = ilLoadImage("Lenna.png");
+	//if (textureOK) /* If no error occured: */
+	//{
+	//	textureOK = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE); /* Convert every colour component into unsigned byte. If your image contains alpha channel you can replace IL_RGB with IL_RGBA */
+	//	if (!textureOK)
+	//	{
+	//		/* Error occured */
+	//		LOG("Error on converting texture.");
+	//		SDL_Quit();
+	//		return false;
+	//	}
+	//	glGenTextures(1, &imageID); /* Texture name generation */
+	//	glBindTexture(GL_TEXTURE_2D, imageID); /* Binding of texture name */
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); /* We will use linear interpolation for magnification filter */
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); /* We will use linear interpolation for minifying filter */
+	//	glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_BPP), ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData()); /* Texture specification */
+	//	glActiveTexture(0);
+	//}
+	//else
+	//{
+	//	/* Error occured */
+	//	LOG("Error on loading texture.");
+	//	SDL_Quit();
+	//	return false;
+	//}
 
 	//Detect Current Hardware
 	LOG("Vendor: %s", glGetString(GL_VENDOR));
@@ -87,36 +87,31 @@ bool ModuleRenderExercise::Init()
 	glEnable(GL_CULL_FACE); // Enable cull backward faces
 	glFrontFace(GL_CCW); // Front faces will be counter clockwise
 
-	glEnable(GL_TEXTURE_2D);
-	glMatrixMode(GL_PROJECTION);
+	//glEnable(GL_TEXTURE_2D);
+	/*glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0.0, 640.0, 480.0, 0.0, 0.0, 100.0);
-	glMatrixMode(GL_MODELVIEW);
+	glMatrixMode(GL_MODELVIEW);*/
 
-	float vtx_data[] = { 
+	float vtx_data[] = { -1.0f, 1.0f, 0.0f,	// triangle 1 vertx 0
+						1.0f, -1.0f, 0.0f,	// triangle 1 vertx 1
+						1.0f, 1.0f, 0.0f,	// triangle 1 vertx 2
 						-1.0f, -1.0f, 0.0f,	// triangle 2 vertx 0
 						1.0f, -1.0f, 0.0f,	// triangle 2 vertx 1
 						-1.0f, 1.0f, 0.0f,	// triangle 2 vertx 2
-						-1.0f, 1.0f, 0.0f,	// triangle 1 vertx 0
-						1.0f, -1.0f, 0.0f,	// triangle 1 vertx 1
-						1.0f, 1.0f, 0.0f,	// triangle 1 vertx 2
-						
-						0.0f, 0.0f,			// triangle 2 vertx 0 texcoord
-						1.0f, 0.0f,			// triangle 2 vertx 1 texcoord
-						0.0f, 1.0f,         // triangle 2 vertx 2 texcoord
-
-						0.0f, 1.0f,         // triangle 1 vertx 0 texcoord 
-						1.0f, 0.0f,         // triangle 1 vertx 1 texcoord 
-						1.0f, 1.0f,         // triangle 1 vertx 2 texcoord
+						//0.0f, 1.0f,         // triangle 1 vertx 0 texcoord 
+						//1.0f, 0.0f,         // triangle 1 vertx 1 texcoord 
+						//1.0f, 1.0f,         // triangle 1 vertx 2 texcoord
+						//0.0f, 0.0f,			// triangle 2 vertx 0 texcoord
+						//1.0f, 0.0f,			// triangle 2 vertx 1 texcoord
+						//0.0f, 1.0f,         // triangle 2 vertx 2 texcoord
 						};
 	
 	glGenBuffers(1, &vboTri);
 	glBindBuffer(GL_ARRAY_BUFFER, vboTri); // set vbo active
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vtx_data), vtx_data, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	int textureStart = sizeof(float) * 3 * 6;
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)textureStart);
+	
 
 	return true;
 }
@@ -126,7 +121,7 @@ update_status ModuleRenderExercise::PreUpdate()
 	int width, height;
 	SDL_GetWindowSize(App->window->window, &width, &height);
 	glViewport(0, 0, width, height);
-	glClearColor(0.5f, 0.3f, 0.6f, 1.0f);
+	//glClearColor(0.5f, 0.3f, 0.6f, 1.0f);
 	glClearDepth(0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -149,18 +144,36 @@ update_status ModuleRenderExercise::Update()
 	glEnableVertexAttribArray(0);
 	// size = 3 float per vertex
 	// stride = 0 is equivalent to stride = sizeof(float)*3
-	
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	//int textureStart = sizeof(float) * 3 * 6;
+	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)textureStart);
 
-	glEnableVertexAttribArray(1); 
+	//glEnableVertexAttribArray(1); 
 	
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, imageID);
-	glUniform1i(glGetUniformLocation(App->program->program_id, "mytexture"), 0);
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, imageID);
+	//glUniform1i(glGetUniformLocation(App->program->program_id, "mytexture"), 0);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 	glUseProgram(App->program->program_id);
+
+	////glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	// 2 triangle to draw = 6 vertices
 	glDrawArrays(GL_TRIANGLES, 0, 6);
-	
+	////glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//Ground (remove)
+	glLineWidth(1.0f);
+	float d = 200.0f;
+	glBegin(GL_LINES);
+	for (float i = -d; i <= d; i += 1.0f)
+	{
+		glVertex3f(i, 0.0f, -d);
+		glVertex3f(i, 0.0f, d);
+		glVertex3f(-d, 0.0f, i);
+		glVertex3f(d, 0.0f, i);
+	}
+	glEnd();
 
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
