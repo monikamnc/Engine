@@ -93,18 +93,21 @@ bool ModuleRenderExercise::Init()
 	glOrtho(0.0, 640.0, 480.0, 0.0, 0.0, 100.0);
 	glMatrixMode(GL_MODELVIEW);
 
-	float vtx_data[] = { -1.0f, 1.0f, 0.0f,	// triangle 1 vertx 0
-						1.0f, -1.0f, 0.0f,	// triangle 1 vertx 1
-						1.0f, 1.0f, 0.0f,	// triangle 1 vertx 2
+	float vtx_data[] = { 
 						-1.0f, -1.0f, 0.0f,	// triangle 2 vertx 0
 						1.0f, -1.0f, 0.0f,	// triangle 2 vertx 1
 						-1.0f, 1.0f, 0.0f,	// triangle 2 vertx 2
-						0.0f, 1.0f,         // triangle 1 vertx 0 texcoord 
-						1.0f, 0.0f,         // triangle 1 vertx 1 texcoord 
-						1.0f, 1.0f,         // triangle 1 vertx 2 texcoord
+						-1.0f, 1.0f, 0.0f,	// triangle 1 vertx 0
+						1.0f, -1.0f, 0.0f,	// triangle 1 vertx 1
+						1.0f, 1.0f, 0.0f,	// triangle 1 vertx 2
+						
 						0.0f, 0.0f,			// triangle 2 vertx 0 texcoord
 						1.0f, 0.0f,			// triangle 2 vertx 1 texcoord
 						0.0f, 1.0f,         // triangle 2 vertx 2 texcoord
+
+						0.0f, 1.0f,         // triangle 1 vertx 0 texcoord 
+						1.0f, 0.0f,         // triangle 1 vertx 1 texcoord 
+						1.0f, 1.0f,         // triangle 1 vertx 2 texcoord
 						};
 	
 	glGenBuffers(1, &vboTri);

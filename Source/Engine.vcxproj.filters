@@ -31,6 +31,7 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -70,6 +71,7 @@
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Game\fragment.glsl" />
