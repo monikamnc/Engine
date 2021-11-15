@@ -44,6 +44,8 @@ bool ModuleRenderExercise::Init()
 		return false;
 	}
 
+
+	//Texture
 	//ilInit();
 
 	//ilGenImages(1, &textureId); // Generation of one image name
@@ -93,23 +95,18 @@ bool ModuleRenderExercise::Init()
 	glOrtho(0.0, 640.0, 480.0, 0.0, 0.0, 100.0);
 	glMatrixMode(GL_MODELVIEW);*/
 
-	float vtx_data[] = { -1.0f, 1.0f, 0.0f,	// triangle 1 vertx 0
-						1.0f, -1.0f, 0.0f,	// triangle 1 vertx 1
-						1.0f, 1.0f, 0.0f,	// triangle 1 vertx 2
-						-1.0f, -1.0f, 0.0f,	// triangle 2 vertx 0
-						1.0f, -1.0f, 0.0f,	// triangle 2 vertx 1
-						-1.0f, 1.0f, 0.0f,	// triangle 2 vertx 2
-						//0.0f, 1.0f,         // triangle 1 vertx 0 texcoord 
-						//1.0f, 0.0f,         // triangle 1 vertx 1 texcoord 
-						//1.0f, 1.0f,         // triangle 1 vertx 2 texcoord
-						//0.0f, 0.0f,			// triangle 2 vertx 0 texcoord
-						//1.0f, 0.0f,			// triangle 2 vertx 1 texcoord
-						//0.0f, 1.0f,         // triangle 2 vertx 2 texcoord
-						};
-	
-	glGenBuffers(1, &vboTri);
-	glBindBuffer(GL_ARRAY_BUFFER, vboTri); // set vbo active
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vtx_data), vtx_data, GL_STATIC_DRAW);
+	//float vtx_data[] = { -1.0f, 1.0f, 0.0f,	// triangle 1 vertx 0
+	//					1.0f, -1.0f, 0.0f,	// triangle 1 vertx 1
+	//					1.0f, 1.0f, 0.0f,	// triangle 1 vertx 2
+	//					-1.0f, -1.0f, 0.0f,	// triangle 2 vertx 0
+	//					1.0f, -1.0f, 0.0f,	// triangle 2 vertx 1
+	//					-1.0f, 1.0f, 0.0f	// triangle 2 vertx 2
+
+	//					};
+	//
+	//glGenBuffers(1, &vboTri);
+	//glBindBuffer(GL_ARRAY_BUFFER, vboTri); // set vbo active
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vtx_data), vtx_data, GL_STATIC_DRAW);
 
 	
 
@@ -121,7 +118,7 @@ update_status ModuleRenderExercise::PreUpdate()
 	int width, height;
 	SDL_GetWindowSize(App->window->window, &width, &height);
 	glViewport(0, 0, width, height);
-	//glClearColor(0.5f, 0.3f, 0.6f, 1.0f);
+	glClearColor(0.5f, 0.3f, 0.6f, 1.0f);
 	glClearDepth(0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
@@ -131,17 +128,30 @@ update_status ModuleRenderExercise::PreUpdate()
 // Called every draw update
 update_status ModuleRenderExercise::Update()
 {
+	glUseProgram(App->program->program_id);
 	//Mala idea de dibujar un triangle
-	//glBegin(GL_TRIANGLES); // Each 3 vertices are a new triangle
-	//glVertex3f(0.0f, 1.0f, 1.0f); 
-	//glVertex3f(1.0f, -1.0f, 1.0f); 
-	//glVertex3f(-1.0f, -1.0f, 1.0f); 
-	//glEnd();
+	glBegin(GL_TRIANGLES); // Each 3 vertices are a new triangle
+	glVertex3f(0.0f, 1.0f, 1.0f); 
+	glVertex3f(1.0f, -1.0f, 1.0f); 
+	glVertex3f(-1.0f, -1.0f, 1.0f); 
+	glEnd();
 	
-	
+	//Ground (remove)
+	/*glLineWidth(1.0f);
+	float d = 200.0f;
+	glBegin(GL_LINES);
+	for (float i = -d; i <= d; i += 1.0f)
+	{
+		glVertex3f(i, 0.0f, -d);
+		glVertex3f(i, 0.0f, d);
+		glVertex3f(-d, 0.0f, i);
+		glVertex3f(d, 0.0f, i);
+	}
+	glEnd();
+	*/
 
-	glBindBuffer(GL_ARRAY_BUFFER, vboTri);
-	glEnableVertexAttribArray(0);
+	/*glBindBuffer(GL_ARRAY_BUFFER, vboTri);
+	glEnableVertexAttribArray(0);*/
 	// size = 3 float per vertex
 	// stride = 0 is equivalent to stride = sizeof(float)*3
 	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
@@ -154,26 +164,15 @@ update_status ModuleRenderExercise::Update()
 	//glBindTexture(GL_TEXTURE_2D, imageID);
 	//glUniform1i(glGetUniformLocation(App->program->program_id, "mytexture"), 0);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-	glUseProgram(App->program->program_id);
+	
 
 	////glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	// 2 triangle to draw = 6 vertices
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	//glDrawArrays(GL_TRIANGLES, 0, 6);
 	////glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	//Ground (remove)
-	glLineWidth(1.0f);
-	float d = 200.0f;
-	glBegin(GL_LINES);
-	for (float i = -d; i <= d; i += 1.0f)
-	{
-		glVertex3f(i, 0.0f, -d);
-		glVertex3f(i, 0.0f, d);
-		glVertex3f(-d, 0.0f, i);
-		glVertex3f(d, 0.0f, i);
-	}
-	glEnd();
+
 
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
@@ -211,10 +210,10 @@ bool ModuleRenderExercise::CleanUp()
 {
 	LOG("Destroying renderer");
 
-	glDeleteBuffers(1, &vboTri);
+	//glDeleteBuffers(1, &vboTri);
 
-	ilDeleteImages(1, &textureId); /* Because we have already copied image data into texture data we can release memory used by image. */
-	glDeleteTextures(1, &imageID);
+	//ilDeleteImages(1, &textureId); /* Because we have already copied image data into texture data we can release memory used by image. */
+	//glDeleteTextures(1, &imageID);
 	//Destroy window
 	SDL_GL_DeleteContext(contextExercise);
 
