@@ -1,6 +1,9 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
+#include "DevIL/include/IL/il.h"
+#include "gl/glew.h"
+
 class ModuleRenderExercise : public Module
 {
 public:
@@ -18,6 +21,9 @@ public:
 private:
 	void* contextExercise;
 	unsigned vboTri;
+	ILuint textureId; // ILuint is a 32bit unsigned integer.
+	ILboolean textureOK;
+	GLuint imageID;
 };
 
 inline void* ModuleRenderExercise::getContext()
