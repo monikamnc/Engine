@@ -1,5 +1,4 @@
 #include "Globals.h"
-#include "stdio.h"
 #include "Application.h"
 #include "ModuleRenderExercise.h"
 #include "ModuleProgram.h"
@@ -35,48 +34,6 @@ bool ModuleRenderExercise::Init()
 
 	glewInit();
 
-	//Check IL Version
-	if (ilGetInteger(IL_VERSION_NUM) < IL_VERSION)
-	{
-		/* wrong DevIL version */
-		LOG("IL Version: %s", ilGetInteger(IL_VERSION_NUM));
-		SDL_Quit();
-		return false;
-	}
-
-
-	//Texture
-	//ilInit();
-
-	//ilGenImages(1, &textureId); // Generation of one image name
-	//ilBindImage(textureId);
-
-	//textureOK = ilLoadImage("Lenna.png");
-	//if (textureOK) /* If no error occured: */
-	//{
-	//	textureOK = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE); /* Convert every colour component into unsigned byte. If your image contains alpha channel you can replace IL_RGB with IL_RGBA */
-	//	if (!textureOK)
-	//	{
-	//		/* Error occured */
-	//		LOG("Error on converting texture.");
-	//		SDL_Quit();
-	//		return false;
-	//	}
-	//	glGenTextures(1, &imageID); /* Texture name generation */
-	//	glBindTexture(GL_TEXTURE_2D, imageID); /* Binding of texture name */
-	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); /* We will use linear interpolation for magnification filter */
-	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); /* We will use linear interpolation for minifying filter */
-	//	glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_BPP), ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData()); /* Texture specification */
-	//	glActiveTexture(0);
-	//}
-	//else
-	//{
-	//	/* Error occured */
-	//	LOG("Error on loading texture.");
-	//	SDL_Quit();
-	//	return false;
-	//}
-
 	//Detect Current Hardware
 	LOG("Vendor: %s", glGetString(GL_VENDOR));
 	LOG("Renderer: %s", glGetString(GL_RENDERER));
@@ -89,26 +46,73 @@ bool ModuleRenderExercise::Init()
 	glEnable(GL_CULL_FACE); // Enable cull backward faces
 	glFrontFace(GL_CCW); // Front faces will be counter clockwise
 
-	//glEnable(GL_TEXTURE_2D);
-	/*glMatrixMode(GL_PROJECTION);
+	glEnable(GL_TEXTURE_2D);
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glOrtho(0.0, 640.0, 480.0, 0.0, 0.0, 100.0);
-	glMatrixMode(GL_MODELVIEW);*/
+	glMatrixMode(GL_MODELVIEW);
 
-	//float vtx_data[] = { -1.0f, 1.0f, 0.0f,	// triangle 1 vertx 0
-	//					1.0f, -1.0f, 0.0f,	// triangle 1 vertx 1
-	//					1.0f, 1.0f, 0.0f,	// triangle 1 vertx 2
-	//					-1.0f, -1.0f, 0.0f,	// triangle 2 vertx 0
-	//					1.0f, -1.0f, 0.0f,	// triangle 2 vertx 1
-	//					-1.0f, 1.0f, 0.0f	// triangle 2 vertx 2
+	float vtx_data[] = { -1.0f, 1.0f, 0.0f,	// triangle 1 vertx 0
+						1.0f, -1.0f, 0.0f,	// triangle 1 vertx 1
+						1.0f, 1.0f, 0.0f,	// triangle 1 vertx 2
+						-1.0f, -1.0f, 0.0f,	// triangle 2 vertx 0
+						1.0f, -1.0f, 0.0f,	// triangle 2 vertx 1
+						-1.0f, 1.0f, 0.0f,	// triangle 2 vertx 2
+						0.0f, 1.0f,         // triangle 1 vertx 0 texcoord 
+						1.0f, 0.0f,         // triangle 1 vertx 1 texcoord 
+						1.0f, 1.0f,         // triangle 1 vertx 2 texcoord
+						0.0f, 0.0f,			// triangle 2 vertx 0 texcoord
+						1.0f, 0.0f,			// triangle 2 vertx 1 texcoord
+						0.0f, 1.0f          // triangle 2 vertx 2 texcoord
+	};
 
-	//					};
-	//
-	//glGenBuffers(1, &vboTri);
-	//glBindBuffer(GL_ARRAY_BUFFER, vboTri); // set vbo active
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(vtx_data), vtx_data, GL_STATIC_DRAW);
+	glGenBuffers(1, &vboTri);
+	glBindBuffer(GL_ARRAY_BUFFER, vboTri); // set vbo active
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vtx_data), vtx_data, GL_STATIC_DRAW);
 
-	
+	//Check IL Version
+	if (ilGetInteger(IL_VERSION_NUM) < IL_VERSION)
+	{
+		/* wrong DevIL version */
+		LOG("IL Version: %s", ilGetInteger(IL_VERSION_NUM));
+		SDL_Quit();
+		return false;
+	}
+
+	//Texture
+	ilInit();
+
+	ilGenImages(1, &textureId); // Generation of one image name
+	ilBindImage(textureId);
+
+	textureOK = ilLoadImage("Lenna.png");
+	if (textureOK) /* If no error occured: */
+	{
+		textureOK = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE); /* Convert every colour component into unsigned byte. If your image contains alpha channel you can replace IL_RGB with IL_RGBA */
+		if (!textureOK)
+		{
+			/* Error occured */
+			LOG("Error on converting texture.");
+			SDL_Quit();
+			return false;
+		}
+		glGenTextures(1, &imageID); /* Texture name generation */
+		glBindTexture(GL_TEXTURE_2D, imageID); /* Binding of texture name */
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); /* We will use linear interpolation for magnification filter */
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); /* We will use linear interpolation for minifying filter */
+		glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_BPP), ilGetInteger(IL_IMAGE_WIDTH),
+			ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData()); /* Texture specification */
+		//glActiveTexture(0);
+		ilDeleteImages(1, &imageID);
+	}
+	else
+	{
+		/* Error occured */
+		LOG("Error on loading texture.");
+		SDL_Quit();
+		return false;
+	}
+
 
 	return true;
 }
@@ -119,66 +123,47 @@ update_status ModuleRenderExercise::PreUpdate()
 	SDL_GetWindowSize(App->window->window, &width, &height);
 	glViewport(0, 0, width, height);
 	glClearColor(0.5f, 0.3f, 0.6f, 1.0f);
-	glClearDepth(0.0f);
+	//glClearDepth(0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+
 	return UPDATE_CONTINUE;
 }
 
 // Called every draw update
 update_status ModuleRenderExercise::Update()
 {
-	glUseProgram(App->program->program_id);
 	//Mala idea de dibujar un triangle
-	glBegin(GL_TRIANGLES); // Each 3 vertices are a new triangle
-	glVertex3f(0.0f, 1.0f, 1.0f); 
-	glVertex3f(1.0f, -1.0f, 1.0f); 
-	glVertex3f(-1.0f, -1.0f, 1.0f); 
-	glEnd();
-	
-	//Ground (remove)
-	/*glLineWidth(1.0f);
-	float d = 200.0f;
-	glBegin(GL_LINES);
-	for (float i = -d; i <= d; i += 1.0f)
-	{
-		glVertex3f(i, 0.0f, -d);
-		glVertex3f(i, 0.0f, d);
-		glVertex3f(-d, 0.0f, i);
-		glVertex3f(d, 0.0f, i);
-	}
-	glEnd();
-	*/
+	//glBegin(GL_TRIANGLES); // Each 3 vertices are a new triangle
+	//glVertex3f(0.0f, 1.0f, 1.0f); 
+	//glVertex3f(1.0f, -1.0f, 1.0f); 
+	//glVertex3f(-1.0f, -1.0f, 1.0f); 
+	//glEnd();
 
-	/*glBindBuffer(GL_ARRAY_BUFFER, vboTri);
-	glEnableVertexAttribArray(0);*/
+
+
+	glBindBuffer(GL_ARRAY_BUFFER, vboTri);
+	glEnableVertexAttribArray(0);
 	// size = 3 float per vertex
 	// stride = 0 is equivalent to stride = sizeof(float)*3
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-	//int textureStart = sizeof(float) * 3 * 6;
-	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)textureStart);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-	//glEnableVertexAttribArray(1); 
-	
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, imageID);
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(6 * 3 * sizeof(float)));
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, imageID);
 	//glUniform1i(glGetUniformLocation(App->program->program_id, "mytexture"), 0);
 
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-
-	
-
-	////glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glUseProgram(App->program->program_id);
 	// 2 triangle to draw = 6 vertices
-	//glDrawArrays(GL_TRIANGLES, 0, 6);
-	////glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glDrawArrays(GL_TRIANGLES, 0, 6);
 
 
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
-	
+
 	//ImGui::ShowDemoWindow(&App->window->show_another_window); //Demo Window
 
 
@@ -210,7 +195,7 @@ bool ModuleRenderExercise::CleanUp()
 {
 	LOG("Destroying renderer");
 
-	//glDeleteBuffers(1, &vboTri);
+	glDeleteBuffers(1, &vboTri);
 
 	//ilDeleteImages(1, &textureId); /* Because we have already copied image data into texture data we can release memory used by image. */
 	//glDeleteTextures(1, &imageID);
