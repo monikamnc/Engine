@@ -62,7 +62,7 @@ update_status ModuleEditor::Update()
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
-	ImGui::ShowDemoWindow(&App->window->show_another_window); //Demo Window
+	//ImGui::ShowDemoWindow(&App->window->show_another_window); //Demo Window
 
 
 	ImGui::Begin("Console");                          // Console Window

@@ -4,6 +4,7 @@
 #include "gl/glew.h"
 #include "MathGeoLib/Geometry/Frustum.h"
 #include "MathGeoLib/Math/float3x3.h"
+#include "MathGeoLib/Math/float4x4.h"
 
 class ModuleCamera : public Module
 {
@@ -22,5 +23,6 @@ public:
 	Frustum frustum;
 	float4x4 projectionGL;
 	float more;
+	float4x4 model, view, proj;
 };
 
