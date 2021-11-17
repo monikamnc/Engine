@@ -180,6 +180,7 @@ update_status ModuleRenderExercise::Update()
 	ImGui::Begin("Console");                          // Console Window
 
 	ImGui::Text("Console LOG");               // Display some text (you can use a format strings too)
+	//ImGui::TextUnformatted(console, console->end());
 	ImGui::End();
 
 	ImGui::Begin("FrameRate");                          // FPS Window
@@ -218,7 +219,6 @@ update_status ModuleRenderExercise::PostUpdate()
 		averageFrame = 1000.0 / (frameRate == 0 ? 0.001 : frameRate);
 
 		countF++;
-		//std::cout << "FrameTime was:" << averageFrame << std::endl;
 		
 	}
 	return UPDATE_CONTINUE;

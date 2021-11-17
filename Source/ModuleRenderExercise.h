@@ -38,6 +38,7 @@ private:
 	float frameRate = 0;
 	std::vector<float> fps;
 	std::vector<float> ms;
+	std::vector<char>* console;
 	
 };
 
