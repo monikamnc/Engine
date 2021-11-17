@@ -21,5 +21,6 @@ public:
 public:
 	Frustum frustum;
 	float4x4 projectionGL;
+	float more;
 };
 

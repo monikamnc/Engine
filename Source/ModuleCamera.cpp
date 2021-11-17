@@ -24,7 +24,7 @@ bool ModuleCamera::Init()
 	// direct mode would be:
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(*projectionGL.v);
-
+	more = 0;
 	return true;
 }
 
@@ -42,7 +42,8 @@ update_status ModuleCamera::PreUpdate()
 // Called every draw update
 update_status ModuleCamera::Update()
 {
-	float3x3 rotationDeltaMatrix( 1 , 0, 0, 1, 0, 0, 1, 0, 0); // = some rotation delta value
+	more++;
+	float3x3 rotationDeltaMatrix( more , 0, 0, 1, 0, 0, 1, 0, 0); // = some rotation delta value
 	vec oldFront = frustum.Front().Normalized();
 	frustum.SetFront(rotationDeltaMatrix.MulDir(oldFront));
 	vec oldUp = frustum.Up().Normalized();
