@@ -85,7 +85,7 @@ bool ModuleRenderExercise::Init()
 	ilGenImages(1, &textureId); // Generation of one image name
 	ilBindImage(textureId);
 
-	textureOK = ilLoadImage("Lenna.png");
+	textureOK = ilLoadImage("graha.jpg");
 	if (textureOK) /* If no error occured: */
 	{
 		textureOK = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE); /* Convert every colour component into unsigned byte. If your image contains alpha channel you can replace IL_RGB with IL_RGBA */
@@ -96,6 +96,7 @@ bool ModuleRenderExercise::Init()
 			SDL_Quit();
 			return false;
 		}
+		iluRotate(180.0f);
 		glGenTextures(1, &imageID); /* Texture name generation */
 		glBindTexture(GL_TEXTURE_2D, imageID); /* Binding of texture name */
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); /* We will use linear interpolation for magnification filter */
@@ -113,7 +114,12 @@ bool ModuleRenderExercise::Init()
 		return false;
 	}
 
-
+	deltaTime = 0;
+	frames = 0;
+	countF = 0;
+	countM = 0;
+	fps.resize(100);
+	ms.resize(100);
 	return true;
 }
 
@@ -126,6 +132,10 @@ update_status ModuleRenderExercise::PreUpdate()
 	//glClearDepth(0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	beginFrame = Clock::Time();
+
+
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -164,7 +174,7 @@ update_status ModuleRenderExercise::Update()
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
-	//ImGui::ShowDemoWindow(&App->window->show_another_window); //Demo Window
+	ImGui::ShowDemoWindow(&App->window->show_another_window); //Demo Window
 
 
 	ImGui::Begin("Console");                          // Console Window
@@ -174,7 +184,11 @@ update_status ModuleRenderExercise::Update()
 
 	ImGui::Begin("FrameRate");                          // FPS Window
 
-	ImGui::Text("FrameRate LOG");               // Display some text (you can use a format strings too)
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	sprintf_s(title, 25, "Framerate %1.f", fps[countF]);
+	ImGui::PlotHistogram("##framerate", &fps[0], fps.size(), 0, title, 0.0f, 200.0f, ImVec2(310,100));
+	sprintf_s(title, 25, "Milliseconds %1.f", ms[countM]);
+	ImGui::PlotHistogram("##framerate", &ms[0], ms.size(), 0, title, 0.0f, 50.0f, ImVec2(310, 100));
 	ImGui::End();
 
 	// Rendering
@@ -187,6 +201,26 @@ update_status ModuleRenderExercise::Update()
 update_status ModuleRenderExercise::PostUpdate()
 {
 	SDL_GL_SwapWindow(App->window->window);
+	endFrame = Clock::Time();
+	deltaTime += endFrame - beginFrame;
+	frames++;
+	fps[countF] = frames;
+	ms[countM] = endFrame - beginFrame;
+	if (countF == 99) { countF = 0; }
+	if (countM == 99) { 
+		countM = 0; 
+	}else
+		countM++;
+	if (deltaTime > 1000.0) { //every second
+		frameRate = (double)frames * 0.5 + frameRate * 0.5; //more stable
+		frames = 0;
+		deltaTime -= 1000.0;
+		averageFrame = 1000.0 / (frameRate == 0 ? 0.001 : frameRate);
+
+		countF++;
+		//std::cout << "FrameTime was:" << averageFrame << std::endl;
+		
+	}
 	return UPDATE_CONTINUE;
 }
 
