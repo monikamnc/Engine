@@ -19,13 +19,22 @@ bool ModuleCamera::Init()
 	frustum.SetPos(float3(0.0f, 1.0f, -2.0f));
 	frustum.SetFront(float3::unitZ);
 	frustum.SetUp(float3::unitY);
-	float4x4 projectionGL = frustum.ProjectionMatrix().Transposed(); //<-- Important to transpose!
+	projectionGL = frustum.ProjectionMatrix().Transposed(); //<-- Important to transpose!
+	//Send the frustum projection matrix to OpenGL
+	// direct mode would be:
+	glMatrixMode(GL_PROJECTION);
+	glLoadMatrixf(*projectionGL.v);
 
 	return true;
 }
 
 update_status ModuleCamera::PreUpdate()
 {
+	//Send the frustum view matrix to OpenGL
+	// direct mode would be:
+	float4x4 viewGL = float4x4(frustum.ViewMatrix()).Transposed();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(*viewGL.v);
 
 	return UPDATE_CONTINUE;
 }
@@ -33,6 +42,11 @@ update_status ModuleCamera::PreUpdate()
 // Called every draw update
 update_status ModuleCamera::Update()
 {
+	float3x3 rotationDeltaMatrix( 1 , 0, 0, 1, 0, 0, 1, 0, 0); // = some rotation delta value
+	vec oldFront = frustum.Front().Normalized();
+	frustum.SetFront(rotationDeltaMatrix.MulDir(oldFront));
+	vec oldUp = frustum.Up().Normalized();
+	frustum.SetUp(rotationDeltaMatrix.MulDir(oldUp));
 
 	return UPDATE_CONTINUE;
 }

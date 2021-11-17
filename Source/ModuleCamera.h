@@ -1,7 +1,9 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
+#include "gl/glew.h"
 #include "MathGeoLib/Geometry/Frustum.h"
+#include "MathGeoLib/Math/float3x3.h"
 
 class ModuleCamera : public Module
 {
@@ -18,5 +20,6 @@ public:
 
 public:
 	Frustum frustum;
+	float4x4 projectionGL;
 };
 
