@@ -15,22 +15,32 @@ ModuleCamera::~ModuleCamera()
 // Called before render is available
 bool ModuleCamera::Init()
 {
-	
+	/*frustum.type = FrustumType::PerspectiveFrustum;
+	frustum.pos = float3::zero;
+	frustum.front = -float3::unitZ;
+	frustum.up = float3::unitY;*/
+
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
 	frustum.SetViewPlaneDistances(0.1f, 200.0f);
 	frustum.SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, 1.3f);
 	frustum.SetPos(float3(0.0f, 1.0f, -2.0f));
 	frustum.SetFront(float3::unitZ);
 	frustum.SetUp(float3::unitY);
-	projectionGL = frustum.ProjectionMatrix().Transposed(); //<-- Important to transpose!
+	proj = frustum.ProjectionMatrix().Transposed(); //<-- Important to transpose!
 	////Send the frustum projection matrix to OpenGL
 	//// direct mode would be:
 	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(*projectionGL.v);
+	glLoadMatrixf(*proj.v);
 
-	model = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-	view = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-	proj = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+	model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),
+		float4x4::RotateZ(pi / 4.0f),
+		float3(2.0f, 1.0f, 0.0f));
+
+	view = float4x4::LookAt(float3(0.0f, 4.0f, 8.0f), float3(0.0f, 0.0f, 0.0f), float3::unitY, float3::unitY);
+
+	//model = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+	//view = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+	//proj = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 	more = 0;
 	return true;
 }
@@ -54,12 +64,12 @@ update_status ModuleCamera::PreUpdate()
 // Called every draw update
 update_status ModuleCamera::Update()
 {
-	more++;
-	float3x3 rotationDeltaMatrix( 0 , 10, 0, 0, 10, 0, 0, 10, 0); // = some rotation delta value
-	vec oldFront = frustum.Front().Normalized();
-	frustum.SetFront(rotationDeltaMatrix.MulDir(oldFront));
-	vec oldUp = frustum.Up().Normalized();
-	frustum.SetUp(rotationDeltaMatrix.MulDir(oldUp));
+	//more++;
+	//float3x3 rotationDeltaMatrix( 0 , 10, 0, 0, 10, 0, 0, 10, 0); // = some rotation delta value
+	//vec oldFront = frustum.Front().Normalized();
+	//frustum.SetFront(rotationDeltaMatrix.MulDir(oldFront));
+	//vec oldUp = frustum.Up().Normalized();
+	//frustum.SetUp(rotationDeltaMatrix.MulDir(oldUp));
 
 	return UPDATE_CONTINUE;
 }
