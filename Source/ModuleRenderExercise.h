@@ -22,9 +22,9 @@ public:
 private:
 	void* contextExercise;
 	unsigned vboTri;
-	ILuint textureId; // ILuint is a 32bit unsigned integer.
-	ILboolean textureOK;
-	GLuint imageID;	
+	ILuint imageId; // ILuint is a 32bit unsigned integer.
+	ILboolean imageOK;
+	GLuint textureID;	
 };
 
 inline void* ModuleRenderExercise::getContext()

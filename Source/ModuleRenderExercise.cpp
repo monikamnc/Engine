@@ -82,29 +82,29 @@ bool ModuleRenderExercise::Init()
 	//Texture
 	ilInit();
 
-	ilGenImages(1, &textureId); // Generation of one image name
-	ilBindImage(textureId);
+	ilGenImages(1, &imageId); // Generation of one image name
+	ilBindImage(imageId);
 
-	textureOK = ilLoadImage("graha.jpg");
-	if (textureOK) /* If no error occured: */
+	imageOK = ilLoadImage("graha.jpg");
+	if (imageOK) /* If no error occured: */
 	{
-		textureOK = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE); /* Convert every colour component into unsigned byte. If your image contains alpha channel you can replace IL_RGB with IL_RGBA */
-		if (!textureOK)
+		imageOK = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE); /* Convert every colour component into unsigned byte. If your image contains alpha channel you can replace IL_RGB with IL_RGBA */
+		if (!imageOK)
 		{
 			/* Error occured */
 			LOG("Error on converting texture.");
 			SDL_Quit();
 			return false;
 		}
-		iluRotate(180.0f);
-		glGenTextures(1, &imageID); /* Texture name generation */
-		glBindTexture(GL_TEXTURE_2D, imageID); /* Binding of texture name */
+		iluFlipImage();
+		glGenTextures(1, &textureID); /* Texture name generation */
+		glBindTexture(GL_TEXTURE_2D, textureID); /* Binding of texture name */
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); /* We will use linear interpolation for magnification filter */
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); /* We will use linear interpolation for minifying filter */
-		glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_BPP), ilGetInteger(IL_IMAGE_WIDTH),
+		glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), ilGetInteger(IL_IMAGE_WIDTH),
 			ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData()); /* Texture specification */
 		glActiveTexture(0);
-		ilDeleteImages(1, &imageID);
+		ilDeleteImages(1, &imageId);
 	}
 	else
 	{
@@ -131,14 +131,6 @@ update_status ModuleRenderExercise::PreUpdate()
 // Called every draw update
 update_status ModuleRenderExercise::Update()
 {
-	//Mala idea de dibujar un triangle
-	//glBegin(GL_TRIANGLES); // Each 3 vertices are a new triangle
-	//glVertex3f(0.0f, 1.0f, 1.0f); 
-	//glVertex3f(1.0f, -1.0f, 1.0f); 
-	//glVertex3f(-1.0f, -1.0f, 1.0f); 
-	//glEnd();
-
-
 
 	glBindBuffer(GL_ARRAY_BUFFER, vboTri);
 	glEnableVertexAttribArray(0);
@@ -146,12 +138,12 @@ update_status ModuleRenderExercise::Update()
 	// stride = 0 is equivalent to stride = sizeof(float)*3
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-	//glEnableVertexAttribArray(1);
-	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(6 * 3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(6 * 3 * sizeof(float)));
 
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, imageID);
-	//glUniform1i(glGetUniformLocation(App->program->program_id, "mytexture"), 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	glUniform1i(glGetUniformLocation(App->program->program_id, "mytexture"), 0);
 
 	glUseProgram(App->program->program_id);
 	// 2 triangle to draw = 6 vertices
@@ -210,8 +202,8 @@ bool ModuleRenderExercise::CleanUp()
 
 	glDeleteBuffers(1, &vboTri);
 
-	//ilDeleteImages(1, &textureId); /* Because we have already copied image data into texture data we can release memory used by image. */
-	//glDeleteTextures(1, &imageID);
+	ilDeleteImages(1, &imageId); /* Because we have already copied image data into texture data we can release memory used by image. */
+	glDeleteTextures(1, &textureID);
 	//Destroy window
 	SDL_GL_DeleteContext(contextExercise);
 
