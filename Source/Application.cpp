@@ -8,11 +8,14 @@
 #include "ModuleRenderExercise.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleProgram.h"
+#include "Timer.h"
 
 using namespace std;
 
 Application::Application()
 {
+	Timer tiempo;
+	tiempo.Start();
 	// Order matters: they will Init/start/update in this order
 	modules.push_back(window = new ModuleWindow());
 	//modules.push_back(renderer = new ModuleRender());
@@ -22,6 +25,7 @@ Application::Application()
 	modules.push_back(editor = new ModuleEditor());
 	modules.push_back(camera = new ModuleCamera());
 	modules.push_back(program = new ModuleProgram());
+	LOG("Application ha tardado %i en cargar los modulos", tiempo);
 }
 
 Application::~Application()

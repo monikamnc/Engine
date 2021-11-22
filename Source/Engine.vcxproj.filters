@@ -159,6 +159,8 @@
       <Filter>MathGeoLib</Filter>
     </ClCompile>
     <ClCompile Include="ModuleDebugDraw.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="PerfTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -425,6 +427,8 @@
       <Filter>MathGeoLib</Filter>
     </ClInclude>
     <ClInclude Include="ModuleDebugDraw.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="PerfTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Game\fragment.glsl" />
