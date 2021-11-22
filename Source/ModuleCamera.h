@@ -19,10 +19,24 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+	void LookAt(const float3& look_position);
+
+	inline float4x4 getView();
+	inline float4x4 getProjection();
+
 public:
 	Frustum frustum;
 	float4x4 projectionGL;
-	float more;
 	float4x4 model, view, proj;
 };
+
+inline float4x4 ModuleCamera::getView()
+{
+	return view;
+}
+
+inline float4x4 ModuleCamera::getProjection()
+{
+	return proj;
+}
 

@@ -22,6 +22,7 @@ public:
 private:
 	void* contextExercise;
 	unsigned vboTri;
+	int width, height;
 	ILuint imageId; // ILuint is a 32bit unsigned integer.
 	ILboolean imageOK;
 	GLuint textureID;	

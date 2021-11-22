@@ -1,8 +1,10 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleRenderExercise.h"
+#include "ModuleDebugDraw.h"
 #include "ModuleProgram.h"
 #include "ModuleWindow.h"
+#include "ModuleCamera.h"
 #include "SDL.h"
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -118,11 +120,10 @@ bool ModuleRenderExercise::Init()
 
 update_status ModuleRenderExercise::PreUpdate()
 {
-	int width, height;
 	SDL_GetWindowSize(App->window->window, &width, &height);
 	glViewport(0, 0, width, height);
 	//glClearColor(0.5f, 0.3f, 0.6f, 1.0f);
-	//glClearDepth(0.0f);
+	glClearDepth(0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	return UPDATE_CONTINUE;
@@ -138,12 +139,12 @@ update_status ModuleRenderExercise::Update()
 	// stride = 0 is equivalent to stride = sizeof(float)*3
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(6 * 3 * sizeof(float)));
+	//glEnableVertexAttribArray(1);
+	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(6 * 3 * sizeof(float)));
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	glUniform1i(glGetUniformLocation(App->program->program_id, "mytexture"), 0);
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, textureID);
+	//glUniform1i(glGetUniformLocation(App->program->program_id, "mytexture"), 0);
 
 	glUseProgram(App->program->program_id);
 	// 2 triangle to draw = 6 vertices
@@ -184,6 +185,8 @@ update_status ModuleRenderExercise::Update()
 	//glVertex3f(-0.05f, -0.1f, 1.05f); glVertex3f(0.05f, -0.1f, 1.05f);
 	//glEnd();
 	//glLineWidth(1.0f);
+
+	App->debugDraw->Draw(App->camera->getView(), App->camera->getProjection(), width, height);
 
 	return UPDATE_CONTINUE;
 }

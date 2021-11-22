@@ -31,17 +31,13 @@ bool ModuleCamera::Init()
 	//// direct mode would be:
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixf(*proj.v);
-
+	
 	model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),
 		float4x4::RotateZ(pi / 4.0f),
 		float3(2.0f, 1.0f, 0.0f));
+	LookAt(float3(0.0f, 4.0f, 8.0f));
+	view = frustum.ViewProjMatrix();
 
-	view = float4x4::LookAt(float3(0.0f, 4.0f, 8.0f), float3(0.0f, 0.0f, 0.0f), float3::unitY, float3::unitY);
-
-	//model = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-	//view = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-	//proj = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-	more = 0;
 	return true;
 }
 
@@ -87,4 +83,15 @@ bool ModuleCamera::CleanUp()
 	
 
 	return true;
+}
+
+void ModuleCamera::LookAt(const float3& look_position)
+{
+
+	float3 direction = look_position - frustum.Pos();
+	// localForward, targetDirection, localUp, worldUp
+	float3x3 look_rotation = float3x3::LookAt(frustum.Front(), direction.Normalized(), frustum.Up(), float3::unitY);
+	frustum.SetFront(look_rotation.MulDir(frustum.Front()).Normalized());
+	frustum.SetUp(look_rotation.MulDir(frustum.Up()).Normalized());
+
 }

@@ -158,6 +158,7 @@
     <ClCompile Include="MathGeoLib\Time\Clock.cpp">
       <Filter>MathGeoLib</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleDebugDraw.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -423,6 +424,7 @@
     <ClInclude Include="MathGeoLib\MathGeoLibFwd.h">
       <Filter>MathGeoLib</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleDebugDraw.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Game\fragment.glsl" />
