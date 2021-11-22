@@ -15,29 +15,28 @@ ModuleCamera::~ModuleCamera()
 // Called before render is available
 bool ModuleCamera::Init()
 {
-	/*frustum.type = FrustumType::PerspectiveFrustum;
-	frustum.pos = float3::zero;
-	frustum.front = -float3::unitZ;
-	frustum.up = float3::unitY;*/
 
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
 	frustum.SetViewPlaneDistances(0.1f, 200.0f);
-	frustum.SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, 1.3f);
-	frustum.SetPos(float3(0.0f, 1.0f, -2.0f));
+	frustum.SetPerspective(DEGTORAD * 90.0f, math::pi * 0.25f);
+	frustum.SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT);
+	frustum.SetPos(float3(1.0f, 1.0f, 3.0f));
 	frustum.SetFront(float3::unitZ);
 	frustum.SetUp(float3::unitY);
-	proj = frustum.ProjectionMatrix().Transposed(); //<-- Important to transpose!
-	////Send the frustum projection matrix to OpenGL
-	//// direct mode would be:
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(*proj.v);
 	
-	model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),
-		float4x4::RotateZ(pi / 4.0f),
-		float3(2.0f, 1.0f, 0.0f));
-	LookAt(float3(0.0f, 4.0f, 8.0f));
-	view = frustum.ViewProjMatrix();
+	model = float4x4::identity;
 
+	proj = frustum.ProjectionMatrix(); 
+
+	float3 direction = (float3(0.0f, 0.0f, 0.0f) - frustum.Pos()).Normalized();
+	float4x4 rotation_matrix = float4x4::LookAt(frustum.Front(), direction, frustum.Up(), float3::unitY);
+
+	frustum.SetFront(rotation_matrix.MulDir(frustum.Front()));
+	frustum.SetUp(rotation_matrix.MulDir(frustum.Up()));
+
+	proj = frustum.ProjectionMatrix();
+
+	view = frustum.ViewMatrix();
 	return true;
 }
 
@@ -48,11 +47,7 @@ update_status ModuleCamera::PreUpdate()
 	glUniformMatrix4fv(glGetUniformLocation(App->program->program_id, "view"), 1, GL_TRUE, &view[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->program_id, "proj"), 1, GL_TRUE, &proj[0][0]);
 
-	//Send the frustum view matrix to OpenGL
-	// direct mode would be:
-	float4x4 viewGL = float4x4(frustum.ViewMatrix()).Transposed();
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(*viewGL.v);
+	
 
 	return UPDATE_CONTINUE;
 }
