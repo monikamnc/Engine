@@ -55,16 +55,21 @@ bool ModuleRenderExercise::Init()
 	glMatrixMode(GL_MODELVIEW);
 
 	float vtx_data[] = { -1.0f, 1.0f, 0.0f,	// triangle 1 vertx 0
-						1.0f, -1.0f, 0.0f,	// triangle 1 vertx 1
-						1.0f, 1.0f, 0.0f,	// triangle 1 vertx 2
-						-1.0f, -1.0f, 0.0f,	// triangle 2 vertx 0
-						1.0f, -1.0f, 0.0f,	// triangle 2 vertx 1
-						-1.0f, 1.0f, 0.0f,	// triangle 2 vertx 2
 						0.0f, 1.0f,         // triangle 1 vertx 0 texcoord 
+
+						1.0f, -1.0f, 0.0f,	// triangle 1 vertx 1
 						1.0f, 0.0f,         // triangle 1 vertx 1 texcoord 
+
+						1.0f, 1.0f, 0.0f,	// triangle 1 vertx 2
 						1.0f, 1.0f,         // triangle 1 vertx 2 texcoord
+
+						-1.0f, -1.0f, 0.0f,	// triangle 2 vertx 0
 						0.0f, 0.0f,			// triangle 2 vertx 0 texcoord
+
+						1.0f, -1.0f, 0.0f,	// triangle 2 vertx 1
 						1.0f, 0.0f,			// triangle 2 vertx 1 texcoord
+
+						-1.0f, 1.0f, 0.0f,	// triangle 2 vertx 2
 						0.0f, 1.0f          // triangle 2 vertx 2 texcoord
 	};
 
@@ -137,10 +142,10 @@ update_status ModuleRenderExercise::Update()
 	glEnableVertexAttribArray(0);
 	// size = 3 float per vertex
 	// stride = 0 is equivalent to stride = sizeof(float)*3
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3 + sizeof(float) * 2, (void*)0);
 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(6 * 3 * sizeof(float)));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 3 + sizeof(float) * 2, (void*)(3 * sizeof(float)));
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureID);
