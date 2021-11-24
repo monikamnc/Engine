@@ -161,6 +161,7 @@
     <ClCompile Include="ModuleDebugDraw.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
+    <ClCompile Include="Mesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -429,6 +430,7 @@
     <ClInclude Include="ModuleDebugDraw.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="PerfTimer.h" />
+    <ClInclude Include="Mesh.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Game\fragment.glsl" />
