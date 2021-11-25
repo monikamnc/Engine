@@ -108,8 +108,8 @@ bool ModuleRenderExercise::Init()
 		glBindTexture(GL_TEXTURE_2D, textureID); /* Binding of texture name */
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); /* We will use linear interpolation for magnification filter */
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); /* We will use linear interpolation for minifying filter */
-		glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), ilGetInteger(IL_IMAGE_WIDTH),
-			ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData()); /* Texture specification */
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ilGetInteger(IL_IMAGE_WIDTH),
+			ilGetInteger(IL_IMAGE_HEIGHT), 0, GL_RGB, GL_UNSIGNED_BYTE, ilGetData()); /* Texture specification */
 		glActiveTexture(0);
 		ilDeleteImages(1, &imageId);
 	}
@@ -154,7 +154,7 @@ update_status ModuleRenderExercise::Update()
 	glUseProgram(App->program->program_id);
 	// 2 triangle to draw = 6 vertices
 	glDrawArrays(GL_TRIANGLES, 0, 6);
-
+	//glDrawElements(GL_ELEMENT_ARRAY_BUFFER, 
 
 	//To Remove
 	//glLineWidth(1.0f);
