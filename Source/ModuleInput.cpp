@@ -48,6 +48,12 @@ update_status ModuleInput::Update()
                 if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
                     //App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
                 break;
+            case SDL_KEYDOWN:
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                break;
+            case SDL_MOUSEBUTTONUP:
+                break;
         }
     }
 
