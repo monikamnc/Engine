@@ -3,7 +3,13 @@
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
 
+Mesh::Mesh()
+{
+}
 
+Mesh::~Mesh()
+{
+}
 
 
 void Mesh::LoadVBO(const aiMesh* mesh)
