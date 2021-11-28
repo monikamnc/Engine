@@ -121,6 +121,8 @@ bool ModuleRender::Init()
 		return false;
 	}
 
+	//house.Load("BakerHouse.fbx");
+
 }
 
 update_status ModuleRender::PreUpdate()
@@ -158,6 +160,8 @@ update_status ModuleRender::Update()
 
 
 	App->debugDraw->Draw(App->camera->getView(), App->camera->getProjection(), width, height);
+
+	//house.Draw();
 
 	return UPDATE_CONTINUE;
 }

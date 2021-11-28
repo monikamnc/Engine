@@ -1,5 +1,7 @@
 #include "Model.h"
+#include "Mesh.h"
 #include "Application.h"
+#include "Globals.h"
 
 Model::Model()
 {

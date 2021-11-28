@@ -4,6 +4,7 @@
 #include "DevIL/include/IL/il.h"
 #include "DevIL/include/IL/ilu.h"
 #include "gl/glew.h"
+#include "Model.h"
 
 class ModuleRender : public Module
 {
@@ -21,6 +22,8 @@ public:
 
 private:
 	void* context;
+	Model house;
+
 	unsigned vboTri;
 	int width, height;
 	ILuint imageId; // ILuint is a 32bit unsigned integer.
