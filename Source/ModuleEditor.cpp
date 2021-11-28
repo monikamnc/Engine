@@ -33,7 +33,7 @@ bool ModuleEditor::Init()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 
-	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderExercise->getContext());
+	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer->getContext());
 	ImGui_ImplOpenGL3_Init("#version 330");
 
 	deltaTime = 0;

@@ -1,10 +1,9 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-
-struct SDL_Texture;
-struct SDL_Renderer;
-struct SDL_Rect;
+#include "DevIL/include/IL/il.h"
+#include "DevIL/include/IL/ilu.h"
+#include "gl/glew.h"
 
 class ModuleRender : public Module
 {
@@ -22,5 +21,14 @@ public:
 
 private:
 	void* context;
-	
+	unsigned vboTri;
+	int width, height;
+	ILuint imageId; // ILuint is a 32bit unsigned integer.
+	ILboolean imageOK;
+	GLuint textureID;
 };
+
+inline void* ModuleRender::getContext()
+{
+	return context;
+}

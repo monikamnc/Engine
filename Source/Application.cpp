@@ -18,8 +18,8 @@ Application::Application()
 	tiempo.Start();
 	// Order matters: they will Init/start/update in this order
 	modules.push_back(window = new ModuleWindow());
-	//modules.push_back(renderer = new ModuleRender());
-	modules.push_back(renderExercise = new ModuleRenderExercise());
+	modules.push_back(renderer = new ModuleRender());
+	//modules.push_back(renderExercise = new ModuleRenderExercise());
 	modules.push_back(debugDraw = new ModuleDebugDraw());
 	modules.push_back(input = new ModuleInput());
 	modules.push_back(editor = new ModuleEditor());
