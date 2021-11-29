@@ -32,6 +32,9 @@ bool ModuleEditor::Init()
 	//Create Context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
+	//Activate docking feature
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer->getContext());
 	ImGui_ImplOpenGL3_Init("#version 330");
