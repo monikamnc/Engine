@@ -21,7 +21,7 @@ void Model::Load(const char* file_name)
 	}
 	//else
 	{
-		//LOG("Error loading %s: %s", file, aiGetErrorString());
+		//LOG("Error loading %s: %s", file_name, aiGetErrorString());
 	}
 }
 

@@ -10,6 +10,8 @@ public:
 	unsigned int Start();
 	unsigned int CurrentTime();
 
+private:
+
 
 };
 
