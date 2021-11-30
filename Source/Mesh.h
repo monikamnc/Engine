@@ -17,9 +17,15 @@ public:
 	void CreateVAO();
 	void Draw(const std::vector<unsigned>& model_textures);
 
+	inline void setMaterialIndex(unsigned value);
+
 private:
 
 	unsigned vbo,ebo,vao;
 	unsigned num_vertices, num_indices, material_index;
 };
 
+inline void Mesh::setMaterialIndex(unsigned value)
+{
+	material_index = value;
+}

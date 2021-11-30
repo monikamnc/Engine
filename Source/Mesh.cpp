@@ -38,7 +38,7 @@ void Mesh::LoadEBO(const aiMesh* mesh)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	unsigned index_size = sizeof(unsigned) * mesh->mNumFaces * 3;
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_size, nullptr, GL_STATIC_DRAW);
-	unsigned* indices = (unsigned*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_MAP_WRITE_BIT));
+	unsigned* indices = (unsigned*)(glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY));
 	for (unsigned i = 0; i < mesh->mNumFaces; ++i)
 	{
 		assert(mesh->mFaces[i].mNumIndices == 3); // note: assume triangles = 3 indices per face
