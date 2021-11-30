@@ -13,15 +13,15 @@ Model::~Model()
 
 void Model::Load(const char* file_name)
 {
-	//const aiScene* scene = aiImportFile(file_name, aiProcessPreset_TargetRealtime_MaxQuality);
-	//if (scene)
+	const aiScene* scene = aiImportFile(file_name, aiProcessPreset_TargetRealtime_MaxQuality);
+	if (scene)
 	{
 		// TODO: LoadTextures(scene->mMaterials, scene->mNumMaterials);
 		// TODO: LoadMeshes(scene->mMeshes, scene->mNumMeshes);
 	}
-	//else
+	else
 	{
-		//LOG("Error loading %s: %s", file_name, aiGetErrorString());
+		LOG("Error loading %s: %s", file_name, aiGetErrorString());
 	}
 }
 
