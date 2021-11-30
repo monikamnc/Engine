@@ -6,7 +6,7 @@
 
 class ModuleRender;
 class ModuleWindow;
-class ModuleTextures;
+class ModuleTexture;
 class ModuleInput;
 class ModuleRenderExercise;
 class ModuleDebugDraw;
@@ -29,6 +29,7 @@ public:
 
 	ModuleRenderExercise* renderExercise = nullptr;
 	ModuleDebugDraw* debugDraw = nullptr;
+	ModuleTexture* texture = nullptr;
 	ModuleRender* renderer = nullptr;
 	ModuleWindow* window = nullptr;
 	ModuleInput* input = nullptr;
