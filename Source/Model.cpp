@@ -13,7 +13,7 @@ Model::~Model()
 
 void Model::Load(const char* file_name)
 {
-	const aiScene* scene = aiImportFile(file_name, aiProcessPreset_TargetRealtime_MaxQuality);
+	const aiScene* scene = aiImportFile(file_name, aiProcess_Triangulate);
 	if (scene)
 	{
 		LoadTextures(scene->mMaterials, scene->mNumMaterials);
