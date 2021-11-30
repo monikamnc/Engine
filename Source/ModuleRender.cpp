@@ -48,80 +48,82 @@ bool ModuleRender::Init()
 	glEnable(GL_CULL_FACE); // Enable cull backward faces
 	glFrontFace(GL_CCW); // Front faces will be counter clockwise
 
-	glEnable(GL_TEXTURE_2D);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0.0, 640.0, 480.0, 0.0, 0.0, 100.0);
-	glMatrixMode(GL_MODELVIEW);
+	//glEnable(GL_TEXTURE_2D);
+	//glMatrixMode(GL_PROJECTION);
+	//glLoadIdentity();
+	//glOrtho(0.0, 640.0, 480.0, 0.0, 0.0, 100.0);
+	//glMatrixMode(GL_MODELVIEW);
 
-	float vtx_data[] = { -1.0f, 1.0f, 0.0f,	// triangle 1 vertx 0
-						0.0f, 1.0f,         // triangle 1 vertx 0 texcoord 
+	//float vtx_data[] = { -1.0f, 1.0f, 0.0f,	// triangle 1 vertx 0
+	//					0.0f, 1.0f,         // triangle 1 vertx 0 texcoord 
 
-						1.0f, -1.0f, 0.0f,	// triangle 1 vertx 1
-						1.0f, 0.0f,         // triangle 1 vertx 1 texcoord 
+	//					1.0f, -1.0f, 0.0f,	// triangle 1 vertx 1
+	//					1.0f, 0.0f,         // triangle 1 vertx 1 texcoord 
 
-						1.0f, 1.0f, 0.0f,	// triangle 1 vertx 2
-						1.0f, 1.0f,         // triangle 1 vertx 2 texcoord
+	//					1.0f, 1.0f, 0.0f,	// triangle 1 vertx 2
+	//					1.0f, 1.0f,         // triangle 1 vertx 2 texcoord
 
-						-1.0f, -1.0f, 0.0f,	// triangle 2 vertx 0
-						0.0f, 0.0f,			// triangle 2 vertx 0 texcoord
+	//					-1.0f, -1.0f, 0.0f,	// triangle 2 vertx 0
+	//					0.0f, 0.0f,			// triangle 2 vertx 0 texcoord
 
-						1.0f, -1.0f, 0.0f,	// triangle 2 vertx 1
-						1.0f, 0.0f,			// triangle 2 vertx 1 texcoord
+	//					1.0f, -1.0f, 0.0f,	// triangle 2 vertx 1
+	//					1.0f, 0.0f,			// triangle 2 vertx 1 texcoord
 
-						-1.0f, 1.0f, 0.0f,	// triangle 2 vertx 2
-						0.0f, 1.0f          // triangle 2 vertx 2 texcoord
-	};
+	//					-1.0f, 1.0f, 0.0f,	// triangle 2 vertx 2
+	//					0.0f, 1.0f          // triangle 2 vertx 2 texcoord
+	//};
 
-	glGenBuffers(1, &vboTri);
-	glBindBuffer(GL_ARRAY_BUFFER, vboTri); // set vbo active
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vtx_data), vtx_data, GL_STATIC_DRAW);
+	//glGenBuffers(1, &vboTri);
+	//glBindBuffer(GL_ARRAY_BUFFER, vboTri); // set vbo active
+	//glBufferData(GL_ARRAY_BUFFER, sizeof(vtx_data), vtx_data, GL_STATIC_DRAW);
 
-	//Check IL Version
-	if (ilGetInteger(IL_VERSION_NUM) < IL_VERSION)
-	{
-		/* wrong DevIL version */
-		LOG("IL Version: %s", ilGetInteger(IL_VERSION_NUM));
-		SDL_Quit();
-		return false;
-	}
+	////Check IL Version
+	//if (ilGetInteger(IL_VERSION_NUM) < IL_VERSION)
+	//{
+	//	/* wrong DevIL version */
+	//	LOG("IL Version: %s", ilGetInteger(IL_VERSION_NUM));
+	//	SDL_Quit();
+	//	return false;
+	//}
 
 	//Texture
-	ilInit();
+	//ilInit();
 
-	ilGenImages(1, &imageId); // Generation of one image name
-	ilBindImage(imageId);
+	//ilGenImages(1, &imageId); // Generation of one image name
+	//ilBindImage(imageId);
 
-	imageOK = ilLoadImage("graha.jpg");
-	if (imageOK) /* If no error occured: */
-	{
-		imageOK = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE); /* Convert every colour component into unsigned byte. If your image contains alpha channel you can replace IL_RGB with IL_RGBA */
-		if (!imageOK)
-		{
-			/* Error occured */
-			LOG("Error on converting texture.");
-			SDL_Quit();
-			return false;
-		}
-		iluFlipImage();
-		glGenTextures(1, &textureID); /* Texture name generation */
-		glBindTexture(GL_TEXTURE_2D, textureID); /* Binding of texture name */
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); /* We will use linear interpolation for magnification filter */
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); /* We will use linear interpolation for minifying filter */
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ilGetInteger(IL_IMAGE_WIDTH),
-			ilGetInteger(IL_IMAGE_HEIGHT), 0, GL_RGB, GL_UNSIGNED_BYTE, ilGetData()); /* Texture specification */
-		glActiveTexture(0);
-		ilDeleteImages(1, &imageId);
-	}
-	else
-	{
-		/* Error occured */
-		LOG("Error on loading texture.");
-		SDL_Quit();
-		return false;
-	}
+	//imageOK = ilLoadImage("graha.jpg");
+	//if (imageOK) /* If no error occured: */
+	//{
+	//	imageOK = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE); /* Convert every colour component into unsigned byte. If your image contains alpha channel you can replace IL_RGB with IL_RGBA */
+	//	if (!imageOK)
+	//	{
+	//		/* Error occured */
+	//		LOG("Error on converting texture.");
+	//		SDL_Quit();
+	//		return false;
+	//	}
+	//	iluFlipImage();
+	//	glGenTextures(1, &textureID); /* Texture name generation */
+	//	glBindTexture(GL_TEXTURE_2D, textureID); /* Binding of texture name */
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR); /* We will use linear interpolation for magnification filter */
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR); /* We will use linear interpolation for minifying filter */
+	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, ilGetInteger(IL_IMAGE_WIDTH),
+	//		ilGetInteger(IL_IMAGE_HEIGHT), 0, GL_RGB, GL_UNSIGNED_BYTE, ilGetData()); /* Texture specification */
+	//	glActiveTexture(0);
+	//	ilDeleteImages(1, &imageId);
+	//}
+	//else
+	//{
+	//	/* Error occured */
+	//	LOG("Error on loading texture.");
+	//	SDL_Quit();
+	//	return false;
+	//}
 
-	//house.Load("BakerHouse.fbx");
+	house.Load("BakerHouse.fbx");
+
+	return true;
 
 }
 
@@ -140,28 +142,28 @@ update_status ModuleRender::PreUpdate()
 update_status ModuleRender::Update()
 {
 
-	glBindBuffer(GL_ARRAY_BUFFER, vboTri);
-	glEnableVertexAttribArray(0);
-	// size = 3 float per vertex
-	// stride = 0 is equivalent to stride = sizeof(float)*3
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3 + sizeof(float) * 2, (void*)0);
+	//glBindBuffer(GL_ARRAY_BUFFER, vboTri);
+	//glEnableVertexAttribArray(0);
+	//// size = 3 float per vertex
+	//// stride = 0 is equivalent to stride = sizeof(float)*3
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3 + sizeof(float) * 2, (void*)0);
 
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 3 + sizeof(float) * 2, (void*)(3 * sizeof(float)));
+	//glEnableVertexAttribArray(1);
+	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 3 + sizeof(float) * 2, (void*)(3 * sizeof(float)));
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	glUniform1i(glGetUniformLocation(App->program->program_id, "mytexture"), 0);
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, textureID);
+	//glUniform1i(glGetUniformLocation(App->program->program_id, "mytexture"), 0);
 
-	glUseProgram(App->program->program_id);
-	// 2 triangle to draw = 6 vertices
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	//glDrawElements(GL_ELEMENT_ARRAY_BUFFER, 
+	//glUseProgram(App->program->program_id);
+	//// 2 triangle to draw = 6 vertices
+	//glDrawArrays(GL_TRIANGLES, 0, 6);
+	////glDrawElements(GL_ELEMENT_ARRAY_BUFFER, 
 
 
 	App->debugDraw->Draw(App->camera->getView(), App->camera->getProjection(), width, height);
 
-	//house.Draw();
+	house.Draw();
 
 	return UPDATE_CONTINUE;
 }
