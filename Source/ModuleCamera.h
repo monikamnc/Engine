@@ -5,6 +5,7 @@
 #include "MathGeoLib/Geometry/Frustum.h"
 #include "MathGeoLib/Math/float3x3.h"
 #include "MathGeoLib/Math/float4x4.h"
+#include "SDL/include/SDL_scancode.h"
 
 class ModuleCamera : public Module
 {
@@ -28,6 +29,7 @@ public:
 	Frustum frustum;
 	float4x4 projectionGL;
 	float4x4 model, view, proj;
+	float3 position;
 };
 
 inline float4x4 ModuleCamera::getView()

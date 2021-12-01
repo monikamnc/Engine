@@ -1,6 +1,7 @@
 #include "ModuleCamera.h"
 #include "Application.h"
 #include "ModuleProgram.h"
+#include "ModuleInput.h"
 #define DEGTORAD pi / 180.0
 
 ModuleCamera::ModuleCamera()
@@ -20,7 +21,8 @@ bool ModuleCamera::Init()
 	frustum.SetViewPlaneDistances(0.1f, 200.0f);
 	frustum.SetPerspective(DEGTORAD * 90.0f, math::pi * 0.25f);
 	frustum.SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT);
-	frustum.SetPos(float3(1.0f, 1.0f, 3.0f));
+	position = float3(90.0f, 150.0f, 100.0f);
+	frustum.SetPos(position);
 	frustum.SetFront(float3::unitZ);
 	frustum.SetUp(float3::unitY);
 	
@@ -62,6 +64,21 @@ update_status ModuleCamera::Update()
 	//vec oldUp = frustum.Up().Normalized();
 	//frustum.SetUp(rotationDeltaMatrix.MulDir(oldUp));
 
+	if (App->input->getKey(SDL_SCANCODE_W) == 1) 
+	{
+		position += frustum.Front() * 0.1;
+		frustum.SetPos(position);
+	}
+	if (App->input->getKey(SDL_SCANCODE_S) == 1)
+	{
+		position -= frustum.Front() * 0.1;
+		frustum.SetPos(position);
+	}
+
+	proj = frustum.ProjectionMatrix();
+
+	view = frustum.ViewMatrix();
+
 	return UPDATE_CONTINUE;
 }
 
@@ -74,7 +91,7 @@ update_status ModuleCamera::PostUpdate()
 // Called before quitting
 bool ModuleCamera::CleanUp()
 {
-	//LOG("Destroying Camera");
+	LOG("Destroying Camera");
 	
 
 	return true;
