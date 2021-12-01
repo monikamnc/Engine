@@ -4,7 +4,6 @@
 #include "ModuleRender.h"
 #include "ModuleRenderExercise.h"
 #include "ModuleEditor.h"
-#include "SDL/include/SDL.h"
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
@@ -49,6 +48,7 @@ update_status ModuleInput::Update()
                     App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
                 break;
             case SDL_KEYDOWN:
+
                 break;
             case SDL_MOUSEBUTTONDOWN:
                 break;
