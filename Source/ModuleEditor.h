@@ -4,6 +4,7 @@
 
 #include "MathGeoLib/Time/Clock.h"
 #include <vector>
+#include <vector>
 
 class ModuleEditor : public Module
 {
@@ -17,6 +18,9 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+	inline std::vector<const char*> getConsole();
+	inline void setConsole(char value[]);
+
 private:
 	char title[25];
 	int countF;
@@ -29,6 +33,15 @@ private:
 	float frameRate = 0;
 	std::vector<float> fps;
 	std::vector<float> ms;
-	std::vector<char>* console;
+	std::vector<const char*> console;
 };
 
+inline std::vector<const char*> ModuleEditor::getConsole()
+{
+	return console;
+}
+
+inline void ModuleEditor::setConsole(char value[])
+{
+	//console.push_back(value[]);
+}

@@ -28,6 +28,7 @@ Application::Application()
 	modules.push_back(camera = new ModuleCamera());
 	modules.push_back(program = new ModuleProgram());
 	LOG("Application ha tardado %i en cargar los modulos", tiempo);
+	//App->editor->setConsole("Application ha tardado %i en cargar los modulos");
 }
 
 Application::~Application()
