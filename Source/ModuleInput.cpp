@@ -9,7 +9,9 @@
 #include "imgui_impl_opengl3.h"
 
 ModuleInput::ModuleInput()
-{}
+{
+     memset(mouse, 0, sizeof(Uint8) * 5);
+}
 
 // Destructor
 ModuleInput::~ModuleInput()
@@ -27,6 +29,8 @@ bool ModuleInput::Init()
 		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
+
+    //mouse = 0;
 
 	return ret;
 }
@@ -51,8 +55,10 @@ update_status ModuleInput::Update()
 
                 break;
             case SDL_MOUSEBUTTONDOWN:
+                mouse[sdlEvent.button.button - 1] = 1;
                 break;
             case SDL_MOUSEBUTTONUP:
+                mouse[sdlEvent.button.button - 1] = 0;
                 break;
         }
     }

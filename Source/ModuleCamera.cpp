@@ -63,16 +63,22 @@ update_status ModuleCamera::Update()
 	//frustum.SetFront(rotationDeltaMatrix.MulDir(oldFront));
 	//vec oldUp = frustum.Up().Normalized();
 	//frustum.SetUp(rotationDeltaMatrix.MulDir(oldUp));
+	if (App->input->getMouseButton(SDL_BUTTON_LEFT) == 1)
+	{
 
-	if (App->input->getKey(SDL_SCANCODE_W) == 1) 
-	{
-		position += frustum.Front() * 0.1;
-		frustum.SetPos(position);
 	}
-	if (App->input->getKey(SDL_SCANCODE_S) == 1)
+	if (App->input->getMouseButton(SDL_BUTTON_RIGHT) == 1)
 	{
-		position -= frustum.Front() * 0.1;
-		frustum.SetPos(position);
+		if (App->input->getKey(SDL_SCANCODE_W) == 1)
+		{
+			position += frustum.Front() * 0.1;
+			frustum.SetPos(position);
+		}
+		if (App->input->getKey(SDL_SCANCODE_S) == 1)
+		{
+			position -= frustum.Front() * 0.1;
+			frustum.SetPos(position);
+		}
 	}
 
 	proj = frustum.ProjectionMatrix();
