@@ -4,7 +4,6 @@
 
 #include "MathGeoLib/Time/Clock.h"
 #include <vector>
-#include <vector>
 
 class ModuleEditor : public Module
 {
@@ -43,5 +42,7 @@ inline std::vector<const char*> ModuleEditor::getConsole()
 
 inline void ModuleEditor::setConsole(char value[])
 {
-	//console.push_back(value[]);
+	char* stringLog = new char[strlen(value)];
+	strcpy(stringLog, value);
+	console.push_back(stringLog);
 }

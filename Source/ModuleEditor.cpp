@@ -89,7 +89,10 @@ update_status ModuleEditor::Update()
 	ImGui::Begin("Console");                          // Console Window
 
 	ImGui::Text("Console LOG");               // Display some text (you can use a format strings too)
-	//ImGui::TextUnformatted(console, console->end());
+	for (const char* log : console)
+	{
+		ImGui::TextUnformatted(log);
+	}
 	ImGui::End();
 
 	ImGui::Begin("FrameRate");                          // FPS Window
