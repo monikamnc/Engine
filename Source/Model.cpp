@@ -72,3 +72,21 @@ void Model::LoadMeshes(aiMesh** mMeshes, unsigned int mNumMeshes)
 		meshes.push_back(mesh);
 	}
 }
+
+void Model::ClearMaterials() 
+{
+	for (GLuint material : materials) 
+	{
+		glDeleteTextures(1, &material);
+	}
+	materials.clear();
+}
+
+void Model::ClearMeshes()
+{
+	for (Mesh &mesh : meshes)
+	{
+		mesh.Clear();
+	}
+	meshes.clear();
+}

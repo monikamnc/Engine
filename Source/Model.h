@@ -22,6 +22,8 @@ public:
 	void LoadMaterials(const aiScene* scene);
 	void LoadTextures(aiMaterial** mMaterials, unsigned int mNumMaterials);
 	void LoadMeshes(aiMesh** mMeshes, unsigned int mNumMeshes);
+	void ClearMeshes();
+	void ClearMaterials();
 
 private:
 	std::vector<GLuint> materials;

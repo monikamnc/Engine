@@ -82,3 +82,10 @@ void Mesh::Draw(const std::vector<unsigned>& model_textures)
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, nullptr);
 }
+
+void Mesh::Clear()
+{
+	glDeleteBuffers(1, &vao);
+	glDeleteBuffers(1, &ebo);
+	glDeleteBuffers(1, &vbo);
+}
