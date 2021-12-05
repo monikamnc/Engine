@@ -23,6 +23,7 @@ ILuint ModuleTexture::Load(char* data)
 	imageOK = ilLoadImage(data);
 	if (imageOK) /* If no error occured: */
 	{
+		LOG("Loading texture %s.", data);
 		imageOK = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE); /* Convert every colour component into unsigned byte. If your image contains alpha channel you can replace IL_RGB with IL_RGBA */
 		if (!imageOK)
 		{
@@ -46,7 +47,7 @@ ILuint ModuleTexture::Load(char* data)
 	{
 		/* Error occured */
 		LOG("Error on loading texture.");
-		SDL_Quit();
+		//SDL_Quit();
 		return -1;
 	}
 
@@ -55,5 +56,6 @@ ILuint ModuleTexture::Load(char* data)
 
 bool ModuleTexture::CleanUp()
 {
+
 	return true;
 }

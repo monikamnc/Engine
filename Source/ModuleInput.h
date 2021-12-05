@@ -23,6 +23,8 @@ public:
 private:
 	const Uint8 *keyboard = NULL;
 	Uint8 mouse[5];
+
+	char* dropped_filedir;
 };
 
 inline Uint8 ModuleInput::getKey(SDL_Scancode id)

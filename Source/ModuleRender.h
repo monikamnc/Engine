@@ -19,10 +19,11 @@ public:
 	bool CleanUp();
 	void WindowResized(unsigned width, unsigned height);
 	inline void* getContext();
+	inline Model& getModel();
 
 private:
 	void* context;
-	Model house;
+	Model modelToRender;
 
 	unsigned vboTri;
 	int width, height;
@@ -34,4 +35,8 @@ private:
 inline void* ModuleRender::getContext()
 {
 	return context;
+}
+inline Model& ModuleRender::getModel()
+{
+	return modelToRender;
 }
