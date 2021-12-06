@@ -5,6 +5,7 @@
 #include "MathGeoLib/Geometry/Frustum.h"
 #include "MathGeoLib/Math/float3x3.h"
 #include "MathGeoLib/Math/float4x4.h"
+#include "MathGeoLib/Math/Quat.h"
 #include "SDL/include/SDL_scancode.h"
 
 class ModuleCamera : public Module
@@ -20,6 +21,7 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+	void OrbitZero(float speed);
 	void LookAt(const float3& look_position);
 
 	inline float4x4 getView();

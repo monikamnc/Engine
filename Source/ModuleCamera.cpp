@@ -39,6 +39,8 @@ bool ModuleCamera::Init()
 	proj = frustum.ProjectionMatrix();
 
 	view = frustum.ViewMatrix();
+
+	position = frustum.Pos();
 	return true;
 }
 
@@ -63,9 +65,12 @@ update_status ModuleCamera::Update()
 	//frustum.SetFront(rotationDeltaMatrix.MulDir(oldFront));
 	//vec oldUp = frustum.Up().Normalized();
 	//frustum.SetUp(rotationDeltaMatrix.MulDir(oldUp));
-	if (App->input->getMouseButton(SDL_BUTTON_LEFT) == 1)
+	if (App->input->getKey(SDL_SCANCODE_LALT) == 1)
 	{
-
+		if (App->input->getMouseButton(SDL_BUTTON_LEFT) == 1)
+		{
+			OrbitZero(1.0f);
+		}
 	}
 	if (App->input->getMouseButton(SDL_BUTTON_RIGHT) == 1)
 	{
@@ -79,6 +84,7 @@ update_status ModuleCamera::Update()
 			position -= frustum.Front() * 0.1;
 			frustum.SetPos(position);
 		}
+		//OrbitZero(-1.0f);
 	}
 
 	proj = frustum.ProjectionMatrix();
@@ -101,6 +107,31 @@ bool ModuleCamera::CleanUp()
 	
 
 	return true;
+}
+
+void ModuleCamera::OrbitZero(float speed) 
+{
+	//float3 posFrus = frustum.Pos();
+	//float distance = (float3(0.0f, 0.0f, 0.0f) - position).Length();
+	//static float angle = 0.0f;
+	//angle += (0.016f * 2.0f * speed); //TODO do it with deltaTime 
+
+	////float4x4 transform = frustum.
+
+	//position = float3(sin(angle) * distance, position.y, position.z);
+
+	//frustum.SetPos(position);
+	//LookAt(float3(0.0f, 0.0f, 0.0f));
+
+	float3 posFrus = frustum.Pos();
+	float3 distance = (position - float3(0.0f, 0.0f, 0.0f));
+	static float angle = 0.0f;
+	angle += (0.016f * 2.0f * speed); //TODO do it with deltaTime 
+	distance = Quat::RotateY(angle).Transform(distance);
+
+	frustum.SetPos(distance); //TODO if object is not at 0,0,0 add object position
+	LookAt(float3(0.0f, 0.0f, 0.0f));
+
 }
 
 void ModuleCamera::LookAt(const float3& look_position)
