@@ -14,6 +14,7 @@ Model::~Model()
 void Model::Load(const char* file_name)
 {
 	const aiScene* scene = aiImportFile(file_name, aiProcess_Triangulate);
+	strcpy(modelPath, file_name);
 	if (scene)
 	{
 		LoadTextures(scene->mMaterials, scene->mNumMaterials);
@@ -54,7 +55,7 @@ void Model::LoadTextures(aiMaterial** mMaterials, unsigned int mNumMaterials)
 	{
 		if (mMaterials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 		{
-			materials.push_back(App->texture->Load(file.data));
+			materials.push_back(App->texture->Load(file.data, getModelPath()));
 		}
 	}
 }

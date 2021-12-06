@@ -25,8 +25,15 @@ public:
 	void ClearMeshes();
 	void ClearMaterials();
 
+	inline const char* getModelPath();
+
 private:
 	std::vector<GLuint> materials;
 	std::vector<Mesh> meshes;
+	char modelPath[255];
 };
 
+inline const char* Model::getModelPath()
+{
+	return modelPath;
+}
