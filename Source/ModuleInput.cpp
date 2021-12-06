@@ -60,6 +60,9 @@ update_status ModuleInput::Update()
             case SDL_MOUSEBUTTONUP:
                 mouse[sdlEvent.button.button - 1] = 0;
                 break;
+            case SDL_MOUSEWHEEL:
+                mouseWheel += sdlEvent.wheel.y;
+                break;
             case SDL_DROPFILE:
                 dropped_filedir = sdlEvent.drop.file;
                 Model& currentModel = App->renderer->getModel();

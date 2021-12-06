@@ -19,10 +19,12 @@ public:
 
 	inline Uint8 getKey(SDL_Scancode id);
 	inline Uint8 getMouseButton(Uint8 id);
+	inline int getMouseWheel();
 
 private:
 	const Uint8 *keyboard = NULL;
 	Uint8 mouse[5];
+	int mouseWheel;
 
 	char* dropped_filedir;
 };
@@ -35,4 +37,9 @@ inline Uint8 ModuleInput::getKey(SDL_Scancode id)
 inline Uint8 ModuleInput::getMouseButton(Uint8 id)
 {
 	return mouse[id-1];
+}
+
+inline int ModuleInput::getMouseWheel()
+{
+	return mouseWheel;
 }
