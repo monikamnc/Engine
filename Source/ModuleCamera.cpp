@@ -107,6 +107,11 @@ update_status ModuleCamera::Update()
 		//OrbitZero(-speed);
 	}
 
+	if (App->input->getKey(SDL_SCANCODE_F) == 1)
+	{
+		LookAt(float3(0.0f, 0.0f, 0.0f));
+	}
+
 
 	NEWmouseWheel = App->input->getMouseWheel();
 
