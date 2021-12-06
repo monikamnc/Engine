@@ -85,7 +85,7 @@ void Mesh::Draw(const std::vector<unsigned>& model_textures)
 
 void Mesh::Clear()
 {
-	glDeleteBuffers(1, &vao);
+	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &vbo);
 }
