@@ -14,7 +14,7 @@ public:
 	bool Init();
 	bool CleanUp();
 
-	ILuint Load(char* data);
+	ILuint Load(char* data, const char* modelPath);
 
 private:
 	ILuint imageId;
