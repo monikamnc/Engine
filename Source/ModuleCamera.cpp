@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleProgram.h"
 #include "ModuleInput.h"
+#include "ModuleWindow.h"
 #define DEGTORAD pi / 180.0
 
 ModuleCamera::ModuleCamera()
@@ -16,19 +17,20 @@ ModuleCamera::~ModuleCamera()
 // Called before render is available
 bool ModuleCamera::Init()
 {
-
+	angle = 90.0f;
+	FOVH = DEGTORAD * angle;
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
 	frustum.SetViewPlaneDistances(0.1f, 200.0f);
-	frustum.SetPerspective(DEGTORAD * 90.0f, math::pi * 0.25f);
-	frustum.SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT);
+	frustum.SetPerspective(FOVH, math::pi * 0.25f);
+	frustum.SetHorizontalFovAndAspectRatio(FOVH, (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT);
 	position = float3(10.0f, 10.0f, 30.0f);
 	frustum.SetPos(position);
 	frustum.SetFront(float3::unitZ);
 	frustum.SetUp(float3::unitY);
-	
+
 	model = float4x4::identity;
 
-	proj = frustum.ProjectionMatrix(); 
+	proj = frustum.ProjectionMatrix();
 
 	float3 direction = (float3(0.0f, 0.0f, 0.0f) - frustum.Pos()).Normalized();
 	float4x4 rotation_matrix = float4x4::LookAt(frustum.Front(), direction, frustum.Up(), float3::unitY);
@@ -51,7 +53,7 @@ update_status ModuleCamera::PreUpdate()
 	glUniformMatrix4fv(glGetUniformLocation(App->program->program_id, "view"), 1, GL_TRUE, &view[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->program_id, "proj"), 1, GL_TRUE, &proj[0][0]);
 
-	
+	proj = frustum.ProjectionMatrix();
 
 	return UPDATE_CONTINUE;
 }
@@ -65,26 +67,54 @@ update_status ModuleCamera::Update()
 	//frustum.SetFront(rotationDeltaMatrix.MulDir(oldFront));
 	//vec oldUp = frustum.Up().Normalized();
 	//frustum.SetUp(rotationDeltaMatrix.MulDir(oldUp));
+	// 
+	//Increase speed of the camera movement
+	float newPos = 0.1f;
+	float speed = 1.0f;
+	if (App->input->getKey(SDL_SCANCODE_LSHIFT) == 1)
+	{
+		speed *= 2;
+	}
 	if (App->input->getKey(SDL_SCANCODE_LALT) == 1)
 	{
 		if (App->input->getMouseButton(SDL_BUTTON_LEFT) == 1)
 		{
-			OrbitZero(1.0f);
+			OrbitZero(newPos * speed);
 		}
 	}
 	if (App->input->getMouseButton(SDL_BUTTON_RIGHT) == 1)
 	{
 		if (App->input->getKey(SDL_SCANCODE_W) == 1)
 		{
-			position += frustum.Front() * 0.1;
+			position += frustum.Front() * newPos * speed;
 			frustum.SetPos(position);
 		}
 		if (App->input->getKey(SDL_SCANCODE_S) == 1)
 		{
-			position -= frustum.Front() * 0.1;
+			position -= frustum.Front() * newPos * speed;
 			frustum.SetPos(position);
 		}
-		//OrbitZero(-1.0f);
+		if (App->input->getKey(SDL_SCANCODE_D) == 1)
+		{
+			position += frustum.WorldRight() * newPos * speed;
+			frustum.SetPos(position);
+		}
+		if (App->input->getKey(SDL_SCANCODE_A) == 1)
+		{
+			position -= frustum.WorldRight() * newPos * speed;
+			frustum.SetPos(position);
+		}
+		//OrbitZero(-speed);
+	}
+
+
+	NEWmouseWheel = App->input->getMouseWheel();
+
+	if (mouseWheel != NEWmouseWheel && NEWmouseWheel != 0) {
+		angle = 90.0f + (NEWmouseWheel * -10.0f);
+		FOVH = DEGTORAD * angle * speed;
+		frustum.SetHorizontalFovAndAspectRatio(FOVH, App->window->screen_surface->w / App->window->screen_surface->h);
+		mouseWheel = NEWmouseWheel;
 	}
 
 	proj = frustum.ProjectionMatrix();
@@ -104,12 +134,12 @@ update_status ModuleCamera::PostUpdate()
 bool ModuleCamera::CleanUp()
 {
 	LOG("Destroying Camera");
-	
+
 
 	return true;
 }
 
-void ModuleCamera::OrbitZero(float speed) 
+void ModuleCamera::OrbitZero(float speed)
 {
 	//float3 posFrus = frustum.Pos();
 	//float distance = (float3(0.0f, 0.0f, 0.0f) - position).Length();

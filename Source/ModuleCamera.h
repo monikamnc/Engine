@@ -32,6 +32,10 @@ public:
 	float4x4 projectionGL;
 	float4x4 model, view, proj;
 	float3 position;
+	float FOVH, angle;
+	int mouseWheel, NEWmouseWheel;
+
+
 };
 
 inline float4x4 ModuleCamera::getView()
