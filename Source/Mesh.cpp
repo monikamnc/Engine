@@ -5,6 +5,7 @@
 
 Mesh::Mesh()
 {
+	aabb.SetNegativeInfinity();
 }
 
 Mesh::~Mesh()

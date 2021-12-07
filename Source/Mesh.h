@@ -19,14 +19,21 @@ public:
 	void Clear();
 
 	inline void setMaterialIndex(unsigned value);
+	inline AABB* getAABB();
 
 private:
 
 	unsigned vbo,ebo,vao;
 	unsigned num_vertices, num_indices, material_index;
+	AABB aabb;
 };
 
 inline void Mesh::setMaterialIndex(unsigned value)
 {
 	material_index = value;
+}
+
+inline AABB* Mesh::getAABB()
+{
+	return &aabb;
 }
