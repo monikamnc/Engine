@@ -191,8 +191,12 @@ bool ModuleRender::CleanUp()
 	return true;
 }
 
-void ModuleRender::WindowResized(unsigned width, unsigned height)
+void ModuleRender::WindowResized(unsigned _width, unsigned _height)
 {
+	App->window->screen_surface = SDL_GetWindowSurface(App->window->window);
+	App->window->setScreenSize(_width, _height);
+	width = _width;
+	height = _height;
 }
 
 

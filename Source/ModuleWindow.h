@@ -15,11 +15,13 @@ public:
 	// Destructor
 	virtual ~ModuleWindow();
 
-	// Called before quitting
+	// Called on start
 	bool Init();
 
 	// Called before quitting
 	bool CleanUp();
+
+	inline void setScreenSize(unsigned newWidth, unsigned newHeight);
 
 public:
 	//The window we'll be rendering to
@@ -30,6 +32,16 @@ public:
 
 
 	bool show_another_window = true;
+
+private:
+	unsigned screenWidth;
+	unsigned screenHeight;
+
 };
 
+inline void ModuleWindow::setScreenSize(unsigned newWidth, unsigned newHeight)
+{
+	screenWidth = newWidth;
+	screenHeight = newHeight;
+}
 #endif // __ModuleWindow_H__

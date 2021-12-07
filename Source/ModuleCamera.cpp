@@ -53,7 +53,9 @@ update_status ModuleCamera::PreUpdate()
 	glUniformMatrix4fv(glGetUniformLocation(App->program->program_id, "view"), 1, GL_TRUE, &view[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->program_id, "proj"), 1, GL_TRUE, &proj[0][0]);
 
-	proj = frustum.ProjectionMatrix();
+	//proj = frustum.ProjectionMatrix();
+
+	frustum.SetHorizontalFovAndAspectRatio(FOVH, float(App->window->screen_surface->w) / float(App->window->screen_surface->h));
 
 	return UPDATE_CONTINUE;
 }
@@ -118,7 +120,7 @@ update_status ModuleCamera::Update()
 	if (mouseWheel != NEWmouseWheel && NEWmouseWheel != 0) {
 		angle = 90.0f + (NEWmouseWheel * -10.0f);
 		FOVH = DEGTORAD * angle * speed;
-		frustum.SetHorizontalFovAndAspectRatio(FOVH, App->window->screen_surface->w / App->window->screen_surface->h);
+		frustum.SetHorizontalFovAndAspectRatio(FOVH, float(App->window->screen_surface->w) / float(App->window->screen_surface->h));
 		mouseWheel = NEWmouseWheel;
 	}
 
