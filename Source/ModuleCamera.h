@@ -23,6 +23,7 @@ public:
 
 	void OrbitZero(float speed);
 	void LookAt(const float3& look_position);
+	void RecalculateCamera();
 
 	inline float4x4 getView();
 	inline float4x4 getProjection();

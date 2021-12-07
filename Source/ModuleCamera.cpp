@@ -181,3 +181,8 @@ void ModuleCamera::LookAt(const float3& look_position)
 	frustum.SetUp(look_rotation.MulDir(frustum.Up()).Normalized());
 
 }
+
+void ModuleCamera::RecalculateCamera() 
+{
+	float3 distance = (position - float3(0.0f, 0.0f, 0.0f)); //Distance from the camera position to the closest vertex of object 
+}
