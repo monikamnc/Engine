@@ -31,6 +31,8 @@ private:
 	std::vector<GLuint> materials;
 	std::vector<Mesh> meshes;
 	char modelPath[255];
+	AABB aabb;
+	OBB obb;
 };
 
 inline const char* Model::getModelPath()

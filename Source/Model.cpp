@@ -5,6 +5,7 @@
 
 Model::Model()
 {
+	aabb.SetNegativeInfinity();
 }
 
 Model::~Model()
@@ -28,8 +29,8 @@ void Model::Load(const char* file_name)
 
 void Model::Draw()
 {
-	for (Mesh& mesh : meshes) {
-
+	for (Mesh& mesh : meshes) 
+	{
 		mesh.Draw(materials);
 	}
 }
@@ -70,6 +71,8 @@ void Model::LoadMeshes(aiMesh** mMeshes, unsigned int mNumMeshes)
 		mesh.LoadEBO(mMeshes[i]);
 		mesh.CreateVAO();
 		mesh.setMaterialIndex(mMeshes[i]->mMaterialIndex);
+		mesh.getAABB()->Enclose((vec*)mMeshes[i]->mVertices, mMeshes[i]->mNumVertices);
+		aabb.Enclose(mesh.getAABB()->minPoint, mesh.getAABB()->maxPoint);
 		meshes.push_back(mesh);
 	}
 }
