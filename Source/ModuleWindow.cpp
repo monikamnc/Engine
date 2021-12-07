@@ -24,16 +24,20 @@ bool ModuleWindow::Init()
 	}
 	else
 	{
-		//Create window
-		screenWidth = SCREEN_WIDTH;
-		screenHeight = SCREEN_HEIGHT;
+		//Get current Display resolution
+		SDL_DisplayMode DM;
+		SDL_GetCurrentDisplayMode(0, &DM);
+		screenWidth = DM.w;
+		screenHeight = DM.h - 60;
+		/*screenWidth = SCREEN_WIDTH;
+		screenHeight = SCREEN_HEIGHT;*/
 		Uint32 flags = SDL_WINDOW_SHOWN |  SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
 
 		if(FULLSCREEN == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
-
+		//Create window
 		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight, flags);
 
 		if(window == NULL)
