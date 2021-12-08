@@ -6,7 +6,7 @@
 #include "ModuleWindow.h"
 #include "SDL.h"
 #include "gl/glew.h"
-
+#include "DevIL/include/IL/il.h"
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
@@ -39,13 +39,21 @@ bool ModuleEditor::Init()
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer->getContext());
 	ImGui_ImplOpenGL3_Init("#version 330");
 
+	config = false;
+	properties = false;
+
 	deltaTime = 0;
 	frames = 0;
 	countF = 0;
 	countM = 0;
 	fps.resize(100);
 	ms.resize(100);
-	return true;
+
+	ImGuiStyle* style = &ImGui::GetStyle();
+	style->Colors[ImGuiCol_Text] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
+	style->Colors[ImGuiCol_WindowBg] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
+	//style->Colors[ImGuiCol_TitleBg] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
+	style->Colors[ImGuiCol_TitleBgActive] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
 
 	return true;
 }
@@ -53,56 +61,130 @@ bool ModuleEditor::Init()
 update_status ModuleEditor::PreUpdate()
 {
 	beginFrame = Clock::Time();
-	return UPDATE_CONTINUE;
-}
-
-// Called every draw update
-update_status ModuleEditor::Update()
-{
 
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
+	return UPDATE_CONTINUE;
+}
+
+// Called every draw update
+update_status ModuleEditor::Update()
+{
+	//Set Style Colors
+	ImGui::PushStyleColor(ImGuiCol_WindowBg, IM_COL32(160, 160, 232, 255));
+	ImGui::PushStyleColor(ImGuiCol_TitleBgActive, IM_COL32(177, 145, 255, 255));
 	//ImGui::ShowDemoWindow(&App->window->show_another_window); //Demo Window
+	//Start Main Menu Bar
 	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			//ShowExampleMenuFile();
+			if (ImGui::MenuItem("Load new FBX")) {}
+			if (ImGui::MenuItem("Quit", "Alt+F4"))
+				return UPDATE_STOP;
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Edit"))
+		if (ImGui::BeginMenu("Tools"))
 		{
-			if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-			if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
-			ImGui::Separator();
-			if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-			if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-			if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+			if (ImGui::MenuItem("Config"))
+				config = true;
+			if (ImGui::MenuItem("Properties"))
+				properties = true;
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Help"))
+		{
+			if (ImGui::MenuItem("Open source code"))
+				ShellExecute(0, 0, "https://github.com/monikamnc/Engine", 0, 0, SW_SHOW);
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
 	}
 
-	ImGui::Begin("Console");                          // Console Window
-
+	// Console Window
+	ImGui::Begin("Console");                          
+	ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(249, 195,	237, 255));
 	ImGui::Text("Console LOG");               // Display some text (you can use a format strings too)
 	for (const char* log : console)
 	{
 		ImGui::TextUnformatted(log);
 	}
+	ImGui::PopStyleColor();
 	ImGui::End();
 
-	ImGui::Begin("FrameRate");                          // FPS Window
 
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-	sprintf_s(title, 25, "Framerate %1.f", fps[countF]);
-	ImGui::PlotHistogram("##framerate", &fps[0], fps.size(), 0, title, 0.0f, 200.0f, ImVec2(310, 100));
-	sprintf_s(title, 25, "Milliseconds %1.f", ms[countM]);
-	ImGui::PlotHistogram("##framerate", &ms[0], ms.size(), 0, title, 0.0f, 50.0f, ImVec2(310, 100));
-	ImGui::End();
+	if (properties)
+	{
+		ImGui::Begin("Properties", &properties);                          // Properties Window: Transformation, Geometry and Texture
+		ImGui::Text("Model loaded: %s", modelPath);
+		ImGui::Text("Texture loaded: %s", texturePath);
+		ImGui::Text("Total of meshes loaded: %d", numMeshes);
+		ImGui::Text("Total of textures loaded: %d", numTextures);
+		ImGui::End();
+	}
+
+	if (config)
+	{
+		ImGui::Begin("Configuration", &config);                          // FPS Window
+		ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(249, 195, 237, 255));
+		if (ImGui::TreeNode("Fps"))
+		{
+			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+			sprintf_s(title, 25, "Framerate %1.f", fps[countF]);
+			ImGui::PlotHistogram("##framerate", &fps[0], fps.size(), 0, title, 0.0f, 200.0f, ImVec2(310, 100));
+			sprintf_s(title, 25, "Milliseconds %1.f", ms[countM]);
+			ImGui::PlotHistogram("##framerate", &ms[0], ms.size(), 0, title, 0.0f, 50.0f, ImVec2(310, 100));
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("Memory Info"))
+		{
+			MEMORYSTATUSEX statex;
+			statex.dwLength = sizeof(statex);
+			GlobalMemoryStatusEx(&statex);
+			ImGui::Text("CPU Memory in use: %d%c", statex.dwMemoryLoad, 37);
+			GLint totalMemoryKb = 0;
+			glGetIntegerv(GL_GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &totalMemoryKb);
+
+			GLint currentMemoryKb = 0;
+			glGetIntegerv(GL_GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &currentMemoryKb);
+			ImGui::Text("Total Memory: %iKb", totalMemoryKb);
+			ImGui::Text("Current Memory: %iKb", currentMemoryKb);
+
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("Hardware Info"))
+		{
+			ImGui::Text("Vendor: %s", glGetString(GL_VENDOR));
+			ImGui::Text("Renderer: %s", glGetString(GL_RENDERER));
+			ImGui::Text("OpenGL version supported %s", glGetString(GL_VERSION));
+			ImGui::Text("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("Software Info"))
+		{
+			ImGui::Text("ImGUI: %s", IMGUI_VERSION);
+			SDL_version compiled;
+			SDL_version linked;
+
+			SDL_VERSION(&compiled);
+			SDL_GetVersion(&linked);
+			ImGui::Text("SDL compiled: %i.%i.%i", compiled.major, compiled.minor, compiled.patch);
+			ImGui::Text("SDL linked: %i.%i.%i", linked.major, linked.minor, linked.patch);
+			ImGui::Text("DevIL: %i", IL_VERSION);
+			ImGui::Text("Renderer: %s", glGetString(GL_RENDERER));
+			ImGui::Text("OpenGL version supported %s", glGetString(GL_VERSION));
+			ImGui::Text("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+			ImGui::TreePop();
+		}
+		ImGui::PopStyleColor();
+		ImGui::End();
+	}
+
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
 
 	// Rendering
 	ImGui::Render();
