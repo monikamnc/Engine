@@ -61,6 +61,8 @@ void Mesh::CreateVAO()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * num_vertices));
+
+	completed = true;
 }
 
 void Mesh::Draw(const std::vector<unsigned>& model_textures)

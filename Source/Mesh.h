@@ -20,11 +20,13 @@ public:
 
 	inline void setMaterialIndex(unsigned value);
 	inline AABB* getAABB();
+	inline bool getCompleted();
 
 private:
 
 	unsigned vbo,ebo,vao;
 	unsigned num_vertices, num_indices, material_index;
+	bool completed = false;
 	AABB aabb;
 };
 
@@ -36,4 +38,9 @@ inline void Mesh::setMaterialIndex(unsigned value)
 inline AABB* Mesh::getAABB()
 {
 	return &aabb;
+}
+
+inline bool Mesh::getCompleted()
+{
+	return completed;
 }
