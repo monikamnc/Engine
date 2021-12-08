@@ -121,7 +121,7 @@ bool ModuleRender::Init()
 	//	return false;
 	//}
 
-	modelToRender.Load("BakerHouse.fbx");
+	modelToRender.Load("Game/BakerHouse.fbx");
 
 	return true;
 
