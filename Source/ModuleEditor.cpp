@@ -52,8 +52,11 @@ bool ModuleEditor::Init()
 	ImGuiStyle* style = &ImGui::GetStyle();
 	style->Colors[ImGuiCol_Text] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
 	style->Colors[ImGuiCol_WindowBg] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
-	//style->Colors[ImGuiCol_TitleBg] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
+	style->Colors[ImGuiCol_TitleBg] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
 	style->Colors[ImGuiCol_TitleBgActive] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
+	style->Colors[ImGuiCol_MenuBarBg] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
+	style->Colors[ImGuiCol_PopupBg] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
+	style->Colors[ImGuiCol_HeaderHovered] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
 
 	return true;
 }
@@ -62,20 +65,24 @@ update_status ModuleEditor::PreUpdate()
 {
 	beginFrame = Clock::Time();
 
-	// Start the Dear ImGui frame
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
-
 	return UPDATE_CONTINUE;
 }
 
 // Called every draw update
 update_status ModuleEditor::Update()
 {
+	// Start the Dear ImGui frame
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
+
 	//Set Style Colors
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, IM_COL32(160, 160, 232, 255));
-	ImGui::PushStyleColor(ImGuiCol_TitleBgActive, IM_COL32(177, 145, 255, 255));
+	ImGui::PushStyleColor(ImGuiCol_TitleBgActive, IM_COL32(142, 237, 214, 255));
+	ImGui::PushStyleColor(ImGuiCol_TitleBg, IM_COL32(177, 145, 255, 255));
+	ImGui::PushStyleColor(ImGuiCol_MenuBarBg, IM_COL32(142, 237, 214, 255));
+	ImGui::PushStyleColor(ImGuiCol_PopupBg, IM_COL32(153, 225, 220, 255));
+	ImGui::PushStyleColor(ImGuiCol_HeaderHovered, IM_COL32(139,	204, 199, 255));
 	//ImGui::ShowDemoWindow(&App->window->show_another_window); //Demo Window
 	//Start Main Menu Bar
 	if (ImGui::BeginMainMenuBar())
@@ -89,7 +96,7 @@ update_status ModuleEditor::Update()
 		}
 		if (ImGui::BeginMenu("Tools"))
 		{
-			if (ImGui::MenuItem("Config"))
+			if (ImGui::MenuItem("Configuration"))
 				config = true;
 			if (ImGui::MenuItem("Properties"))
 				properties = true;
@@ -119,10 +126,12 @@ update_status ModuleEditor::Update()
 	if (properties)
 	{
 		ImGui::Begin("Properties", &properties);                          // Properties Window: Transformation, Geometry and Texture
+		ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(249, 195, 237, 255));
 		ImGui::Text("Model loaded: %s", modelPath);
 		ImGui::Text("Texture loaded: %s", texturePath);
 		ImGui::Text("Total of meshes loaded: %d", numMeshes);
 		ImGui::Text("Total of textures loaded: %d", numTextures);
+		ImGui::PopStyleColor();
 		ImGui::End();
 	}
 
@@ -183,6 +192,10 @@ update_status ModuleEditor::Update()
 		ImGui::End();
 	}
 
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
 	ImGui::PopStyleColor();
 
