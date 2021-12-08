@@ -3,6 +3,7 @@
 #include "Globals.h"
 #include "ModuleTexture.h"
 #include "ModuleCamera.h"
+#include "ModuleEditor.h"
 
 Model::Model()
 {
@@ -28,6 +29,9 @@ void Model::Load(const char* file_name)
 		LOG("Error loading %s: %s", file_name, aiGetErrorString());
 	}
 	LOG("Loaded %s, releasing import data.", modelPath);
+	App->editor->setModelPath(modelPath);
+	App->editor->setNumTextures(scene->mNumMaterials);
+	App->editor->setNumMeshes(scene->mNumMeshes);
 	aiReleaseImport(scene);
 }
 
