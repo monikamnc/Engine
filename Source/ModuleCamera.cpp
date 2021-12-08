@@ -53,8 +53,6 @@ update_status ModuleCamera::PreUpdate()
 	glUniformMatrix4fv(glGetUniformLocation(App->program->program_id, "view"), 1, GL_TRUE, &view[0][0]);
 	glUniformMatrix4fv(glGetUniformLocation(App->program->program_id, "proj"), 1, GL_TRUE, &proj[0][0]);
 
-	//proj = frustum.ProjectionMatrix();
-
 	frustum.SetHorizontalFovAndAspectRatio(FOVH, float(App->window->screen_surface->w) / float(App->window->screen_surface->h));
 
 	return UPDATE_CONTINUE;
@@ -63,19 +61,12 @@ update_status ModuleCamera::PreUpdate()
 // Called every draw update
 update_status ModuleCamera::Update()
 {
-	//more++;
-	//float3x3 rotationDeltaMatrix( 0 , 10, 0, 0, 10, 0, 0, 10, 0); // = some rotation delta value
-	//vec oldFront = frustum.Front().Normalized();
-	//frustum.SetFront(rotationDeltaMatrix.MulDir(oldFront));
-	//vec oldUp = frustum.Up().Normalized();
-	//frustum.SetUp(rotationDeltaMatrix.MulDir(oldUp));
-	// 
 	//Increase speed of the camera movement
 	float newPos = 0.1f;
 	float speed = 1.0f;
 	if (App->input->getKey(SDL_SCANCODE_LSHIFT) == 1)
 	{
-		speed *= 2;
+		speed *= 2.0f;
 	}
 	if (App->input->getKey(SDL_SCANCODE_LALT) == 1)
 	{
@@ -125,7 +116,7 @@ update_status ModuleCamera::Update()
 	}
 
 	proj = frustum.ProjectionMatrix();
-
+	model = frustum.WorldMatrix() * float4x4::identity;
 	view = frustum.ViewMatrix();
 
 	return UPDATE_CONTINUE;
@@ -184,10 +175,20 @@ void ModuleCamera::LookAt(const float3& look_position)
 
 void ModuleCamera::RecalculateCamera(OBB _obb) 
 {
-	float distance = (position - _obb.MinimalEnclosingSphere().pos).Length(); //Distance from the camera position to the closest vertex of object 
-	float objectHeight = _obb.Size().y;
+	//TODO fix errors
+	float3 direction = (position - _obb.MaximalContainedSphere().pos);
+	direction.Normalize();
+	direction *= _obb.MaximalContainedSphere().r;
 
-	FOVH = 2 * Atan(objectHeight / (2 * distance)) * DEGTORAD; // in degrees
-	frustum.SetPos(position + _obb.FaceCenterPoint(5));
-	LookAt(_obb.CenterPoint());
+	//Calculate the closest point with the vector and the position of the sphere
+	float3 closestPoint = _obb.MaximalContainedSphere().pos + direction;
+
+	//Distance from the camera position to the closest point of the OBB
+	float distance = (_obb.MaximalContainedSphere().r / math::Sin(angle / 2.0f));
+
+	float3 eyePoint = _obb.CenterPoint() - (distance * frustum.Front());
+
+	frustum.SetPos(eyePoint);
+	//LookAt(_obb.CenterPoint());
+
 }
