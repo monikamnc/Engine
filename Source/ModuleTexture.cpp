@@ -57,6 +57,7 @@ ILuint ModuleTexture::Load(char* data, const char* modelPath)
 		LOG("Deleting image %s from stack.", data);
 		ilDeleteImages(1, &imageId);
 		App->editor->setTexturePath(data);
+		App->editor->setTexture(textureID);
 		LOG("The texture is loaded correctly.");
 	}
 	else
@@ -99,6 +100,7 @@ ILuint ModuleTexture::Load(char* data, const char* modelPath)
 			LOG("Deleting image %s from stack.", finalPath);
 			ilDeleteImages(1, &imageId);
 			App->editor->setTexturePath(finalPath);
+			App->editor->setTexture(textureID);
 			LOG("The texture is loaded correctly.");
 		}
 		else
@@ -140,6 +142,7 @@ ILuint ModuleTexture::Load(char* data, const char* modelPath)
 				LOG("Deleting image %s from stack.", finalPath);
 				ilDeleteImages(1, &imageId);
 				App->editor->setTexturePath(finalPath);
+				App->editor->setTexture(textureID);
 				LOG("The texture is loaded correctly.");
 			}
 			else

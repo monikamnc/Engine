@@ -131,6 +131,7 @@ update_status ModuleEditor::Update()
 		ImGui::Text("Texture loaded: %s", texturePath);
 		ImGui::Text("Total of meshes loaded: %d", numMeshes);
 		ImGui::Text("Total of textures loaded: %d", numTextures);
+		ImGui::Image((void*)(intptr_t)texture, ImVec2(150, 150));
 		ImGui::PopStyleColor();
 		ImGui::End();
 	}

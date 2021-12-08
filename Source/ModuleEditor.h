@@ -23,6 +23,7 @@ public:
 	inline void setTexturePath(char value[]);
 	inline void setNumMeshes(int value);
 	inline void setNumTextures(int value);
+	inline void setTexture(unsigned value);
 
 private:
 	bool config;
@@ -44,6 +45,7 @@ private:
 	char texturePath[255];
 	int numMeshes;
 	int numTextures;
+	unsigned texture;
 };
 
 inline std::vector<const char*> ModuleEditor::getConsole()
@@ -76,4 +78,9 @@ inline void ModuleEditor::setNumMeshes(int value)
 inline void ModuleEditor::setNumTextures(int value)
 {
 	numTextures = value;
+}
+
+inline void ModuleEditor::setTexture(unsigned value)
+{
+	texture = value;
 }
