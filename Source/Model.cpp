@@ -17,6 +17,7 @@ void Model::Load(const char* file_name)
 {
 	const aiScene* scene = aiImportFile(file_name, aiProcess_Triangulate);
 	strcpy(modelPath, file_name);
+	LOG("Loading %s", modelPath);
 	if (scene)
 	{
 		LoadTextures(scene->mMaterials, scene->mNumMaterials);
@@ -26,6 +27,8 @@ void Model::Load(const char* file_name)
 	{
 		LOG("Error loading %s: %s", file_name, aiGetErrorString());
 	}
+	LOG("Loaded %s, releasing import data.", modelPath);
+	aiReleaseImport(scene);
 }
 
 void Model::Draw()
@@ -53,11 +56,16 @@ void Model::LoadTextures(aiMaterial** mMaterials, unsigned int mNumMaterials)
 {
 	aiString file;
 	materials.reserve(mNumMaterials);
+	LOG("Loading a total of: %i textures", mNumMaterials);
 	for (unsigned i = 0; i < mNumMaterials; ++i)
 	{
 		if (mMaterials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 		{
 			materials.push_back(App->texture->Load(file.data, getModelPath()));
+		}
+		else
+		{
+			LOG("Error loading textures: %s", aiGetErrorString());
 		}
 	}
 }
@@ -65,6 +73,7 @@ void Model::LoadTextures(aiMaterial** mMaterials, unsigned int mNumMaterials)
 void Model::LoadMeshes(aiMesh** mMeshes, unsigned int mNumMeshes)
 {
 	meshes.reserve(mNumMeshes);
+	LOG("Loading a total of: %i meshes", mNumMeshes);
 	for (unsigned i = 0; i < mNumMeshes; ++i)
 	{
 		Mesh mesh = Mesh();
@@ -74,7 +83,14 @@ void Model::LoadMeshes(aiMesh** mMeshes, unsigned int mNumMeshes)
 		mesh.setMaterialIndex(mMeshes[i]->mMaterialIndex);
 		mesh.getAABB()->Enclose((vec*)mMeshes[i]->mVertices, mMeshes[i]->mNumVertices);
 		aabb.Enclose(mesh.getAABB()->minPoint, mesh.getAABB()->maxPoint);
-		meshes.push_back(mesh);
+		if (mesh.getCompleted())
+		{
+			meshes.push_back(mesh);
+		}
+		else
+		{
+			LOG("Error loading mesh: %s", aiGetErrorString());
+		}
 	}
 	//obb.SetFrom(aabb, obb.LocalToWorld());
 	obb.SetFrom(aabb, float4x4::identity);
@@ -83,6 +99,7 @@ void Model::LoadMeshes(aiMesh** mMeshes, unsigned int mNumMeshes)
 
 void Model::ClearMaterials() 
 {
+	LOG("Clearing materials loaded.");
 	for (GLuint material : materials) 
 	{
 		glDeleteTextures(1, &material);
@@ -92,6 +109,7 @@ void Model::ClearMaterials()
 
 void Model::ClearMeshes()
 {
+	LOG("Clearing meshes loaded.");
 	for (Mesh &mesh : meshes)
 	{
 		mesh.Clear();

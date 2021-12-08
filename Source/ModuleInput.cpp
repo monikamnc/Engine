@@ -65,17 +65,17 @@ update_status ModuleInput::Update()
                 break;
             case SDL_DROPFILE:
                 dropped_filedir = sdlEvent.drop.file;
+                LOG("Detected dropped file: %s", dropped_filedir);
                 Model& currentModel = App->renderer->getModel();
                 currentModel.ClearMaterials();
                 currentModel.ClearMeshes();
                 currentModel.Load(dropped_filedir);
+                LOG("Free the memory for the dropped file");
                 SDL_free(dropped_filedir);
 
                 break;
         }
     }
-
-    
 
     keyboard = SDL_GetKeyboardState(NULL);
 
