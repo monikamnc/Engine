@@ -1,4 +1,5 @@
 #include "ModuleTexture.h"
+#include "ModuleEditor.h"
 #include "Application.h"
 #include "Model.h"
 #include <iostream>
@@ -24,7 +25,7 @@ ILuint ModuleTexture::Load(char* data, const char* modelPath)
 	ilGenImages(1, &imageId); // Generation of one image name
 	LOG("Binding the named texture to the target with DevIL.");
 	ilBindImage(imageId);
-
+	
 	//First try: Check on the path provided from FBX
 	LOG("Trying to load texture from %s.", data);
 	imageOK = ilLoadImage(data);
@@ -55,6 +56,7 @@ ILuint ModuleTexture::Load(char* data, const char* modelPath)
 		//glActiveTexture(0);
 		LOG("Deleting image %s from stack.", data);
 		ilDeleteImages(1, &imageId);
+		App->editor->setTexturePath(data);
 		LOG("The texture is loaded correctly.");
 	}
 	else
@@ -96,6 +98,7 @@ ILuint ModuleTexture::Load(char* data, const char* modelPath)
 			//glActiveTexture(0);
 			LOG("Deleting image %s from stack.", finalPath);
 			ilDeleteImages(1, &imageId);
+			App->editor->setTexturePath(finalPath);
 			LOG("The texture is loaded correctly.");
 		}
 		else
@@ -136,12 +139,14 @@ ILuint ModuleTexture::Load(char* data, const char* modelPath)
 				//glActiveTexture(0);
 				LOG("Deleting image %s from stack.", finalPath);
 				ilDeleteImages(1, &imageId);
+				App->editor->setTexturePath(finalPath);
 				LOG("The texture is loaded correctly.");
 			}
 			else
 			{
 				/* Error occured */
 				LOG("Error on loading texture.");
+				App->editor->setTexturePath(NULL);
 				//SDL_Quit();
 				return -1;
 			}
