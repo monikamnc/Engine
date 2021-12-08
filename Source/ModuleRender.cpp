@@ -131,7 +131,7 @@ update_status ModuleRender::PreUpdate()
 {
 	SDL_GetWindowSize(App->window->window, &width, &height);
 	glViewport(0, 0, width, height);
-	glClearColor(0.5f, 0.3f, 0.6f, 1.0f);
+	glClearColor(0.61f, 0.61f, 0.77f, 1.0f);
 	//glClearDepth(0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
