@@ -19,8 +19,14 @@ public:
 
 	inline std::vector<const char*> getConsole();
 	inline void setConsole(char value[]);
+	inline void setModelPath(char value[]);
+	inline void setTexturePath(char value[]);
+	inline void setNumMeshes(int value);
+	inline void setNumTextures(int value);
 
 private:
+	bool config;
+	bool properties;
 	char title[25];
 	int countF;
 	int countM;
@@ -33,6 +39,11 @@ private:
 	std::vector<float> fps;
 	std::vector<float> ms;
 	std::vector<const char*> console;
+
+	char modelPath[255];
+	char texturePath[255];
+	int numMeshes;
+	int numTextures;
 };
 
 inline std::vector<const char*> ModuleEditor::getConsole()
@@ -45,4 +56,24 @@ inline void ModuleEditor::setConsole(char value[])
 	char* stringLog = new char[strlen(value)];
 	strcpy(stringLog, value);
 	console.push_back(stringLog);
+}
+
+inline void ModuleEditor::setModelPath(char value[])
+{
+	strcpy(modelPath, value);
+}
+
+inline void ModuleEditor::setTexturePath(char value[])
+{
+	strcpy(texturePath, value);
+}
+
+inline void ModuleEditor::setNumMeshes(int value)
+{
+	numMeshes = value;
+}
+
+inline void ModuleEditor::setNumTextures(int value)
+{
+	numTextures = value;
 }
