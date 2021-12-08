@@ -22,7 +22,7 @@ bool ModuleCamera::Init()
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
 	frustum.SetViewPlaneDistances(0.1f, 200.0f);
 	frustum.SetPerspective(FOVH, math::pi * 0.25f);
-	frustum.SetHorizontalFovAndAspectRatio(FOVH, (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT);
+	frustum.SetHorizontalFovAndAspectRatio(FOVH, App->window->screen_surface->w / App->window->screen_surface->h);
 	position = float3(10.0f, 10.0f, 30.0f);
 	frustum.SetPos(position);
 	frustum.SetFront(float3::unitZ);
@@ -182,7 +182,12 @@ void ModuleCamera::LookAt(const float3& look_position)
 
 }
 
-void ModuleCamera::RecalculateCamera() 
+void ModuleCamera::RecalculateCamera(OBB _obb) 
 {
-	float3 distance = (position - float3(0.0f, 0.0f, 0.0f)); //Distance from the camera position to the closest vertex of object 
+	float distance = (position - _obb.MinimalEnclosingSphere().pos).Length(); //Distance from the camera position to the closest vertex of object 
+	float objectHeight = _obb.Size().y;
+
+	FOVH = 2 * Atan(objectHeight / (2 * distance)) * DEGTORAD; // in degrees
+	frustum.SetPos(position + _obb.FaceCenterPoint(5));
+	LookAt(_obb.CenterPoint());
 }

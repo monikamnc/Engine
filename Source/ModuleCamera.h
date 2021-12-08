@@ -6,6 +6,7 @@
 #include "MathGeoLib/Math/float3x3.h"
 #include "MathGeoLib/Math/float4x4.h"
 #include "MathGeoLib/Math/Quat.h"
+#include "MathGeoLib.h"
 #include "SDL/include/SDL_scancode.h"
 
 class ModuleCamera : public Module
@@ -23,7 +24,7 @@ public:
 
 	void OrbitZero(float speed);
 	void LookAt(const float3& look_position);
-	void RecalculateCamera();
+	void RecalculateCamera(OBB _obb);
 
 	inline float4x4 getView();
 	inline float4x4 getProjection();

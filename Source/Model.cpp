@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "Globals.h"
 #include "ModuleTexture.h"
+#include "ModuleCamera.h"
 
 Model::Model()
 {
@@ -75,6 +76,9 @@ void Model::LoadMeshes(aiMesh** mMeshes, unsigned int mNumMeshes)
 		aabb.Enclose(mesh.getAABB()->minPoint, mesh.getAABB()->maxPoint);
 		meshes.push_back(mesh);
 	}
+	//obb.SetFrom(aabb, obb.LocalToWorld());
+	obb.SetFrom(aabb, float4x4::identity);
+	App->camera->RecalculateCamera(obb);
 }
 
 void Model::ClearMaterials() 
