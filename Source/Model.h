@@ -26,6 +26,8 @@ public:
 	void ClearMaterials();
 
 	inline const char* getModelPath();
+	inline const AABB* getAABB();
+	inline const OBB* getOBB();
 
 private:
 	std::vector<GLuint> materials;
@@ -38,4 +40,14 @@ private:
 inline const char* Model::getModelPath()
 {
 	return modelPath;
+}
+
+inline const AABB* Model::getAABB()
+{
+	return &aabb;
+}
+
+inline const OBB* Model::getOBB()
+{
+	return &obb;
 }

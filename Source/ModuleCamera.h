@@ -28,6 +28,8 @@ public:
 
 	inline float4x4 getView();
 	inline float4x4 getProjection();
+	inline float getFOVH();
+	inline float3 getPosition();
 
 public:
 	Frustum frustum;
@@ -48,5 +50,15 @@ inline float4x4 ModuleCamera::getView()
 inline float4x4 ModuleCamera::getProjection()
 {
 	return proj;
+}
+
+inline float ModuleCamera::getFOVH()
+{
+	return FOVH;
+}
+
+inline float3 ModuleCamera::getPosition()
+{
+	return position;
 }
 

@@ -46,6 +46,8 @@ private:
 	int numMeshes;
 	int numTextures;
 	unsigned texture;
+	AABB* aabb;
+	OBB* obb;
 };
 
 inline std::vector<const char*> ModuleEditor::getConsole()

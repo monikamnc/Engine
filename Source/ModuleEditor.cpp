@@ -4,6 +4,7 @@
 #include "ModuleRender.h"
 #include "ModuleRenderExercise.h"
 #include "ModuleWindow.h"
+#include "ModuleCamera.h"
 #include "SDL.h"
 #include "gl/glew.h"
 #include "DevIL/include/IL/il.h"
@@ -127,11 +128,22 @@ update_status ModuleEditor::Update()
 	{
 		ImGui::Begin("Properties", &properties);                          // Properties Window: Transformation, Geometry and Texture
 		ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(249, 195, 237, 255));
-		ImGui::Text("Model loaded: %s", modelPath);
-		ImGui::Text("Texture loaded: %s", texturePath);
-		ImGui::Text("Total of meshes loaded: %d", numMeshes);
-		ImGui::Text("Total of textures loaded: %d", numTextures);
-		ImGui::Image((void*)(intptr_t)texture, ImVec2(150, 150));
+		if (ImGui::TreeNode("Camera Info"))
+		{
+			ImGui::Text("FOVH: %f", App->camera->getFOVH());
+			ImGui::Text("Position");
+			ImGui::Text("X: %f Y: %f Z: %f", App->camera->getPosition().x, App->camera->getPosition().y, App->camera->getPosition().z);
+			ImGui::TreePop();
+		}
+		if (ImGui::TreeNode("Model Info"))
+		{
+			ImGui::Text("Model loaded: %s", modelPath);
+			ImGui::Text("Texture loaded: %s", texturePath);
+			ImGui::Text("Total of meshes loaded: %d", numMeshes);
+			ImGui::Text("Total of textures loaded: %d", numTextures);
+			ImGui::Image((void*)(intptr_t)texture, ImVec2(150, 150));
+			ImGui::TreePop();
+		}
 		ImGui::PopStyleColor();
 		ImGui::End();
 	}
