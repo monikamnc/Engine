@@ -189,6 +189,7 @@ void ModuleCamera::RecalculateCamera(OBB _obb)
 	float3 eyePoint = _obb.CenterPoint() - (distance * frustum.Front());
 
 	frustum.SetPos(eyePoint);
+	position = frustum.Pos();
 	//LookAt(_obb.CenterPoint());
 
 }
