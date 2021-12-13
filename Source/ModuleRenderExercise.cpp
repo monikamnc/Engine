@@ -206,7 +206,7 @@ update_status ModuleRenderExercise::PostUpdate()
 // Called before quitting
 bool ModuleRenderExercise::CleanUp()
 {
-	LOG("Destroying renderer");
+	//LOG("Destroying renderer");
 
 	glDeleteBuffers(1, &vboTri);
 

@@ -131,7 +131,7 @@ update_status ModuleCamera::PostUpdate()
 // Called before quitting
 bool ModuleCamera::CleanUp()
 {
-	LOG("Destroying Camera");
+	//LOG("Destroying Camera");
 
 
 	return true;
@@ -158,6 +158,7 @@ void ModuleCamera::OrbitZero(float speed)
 	distance = Quat::RotateY(angle).Transform(distance);
 
 	frustum.SetPos(distance); //TODO if object is not at 0,0,0 add object position
+	position = frustum.Pos();
 	LookAt(float3(0.0f, 0.0f, 0.0f));
 
 }

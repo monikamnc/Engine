@@ -247,10 +247,15 @@ update_status ModuleEditor::PostUpdate()
 // Called before quitting
 bool ModuleEditor::CleanUp()
 {
-	LOG("Destroying Editor");
+	//LOG("Destroying Editor");
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
+	for (std::vector<char*>::reverse_iterator it = console.rbegin(); it != console.rend(); ++it)
+	{
+		delete[](*it);
+	}
+	
 	return true;
 }

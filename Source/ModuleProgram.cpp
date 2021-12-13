@@ -124,6 +124,8 @@ bool ModuleProgram::Init()
 	
 	program_id =  CreateProgram(compiledVertexShader, fragmentVertexShader);
 
+	free(vertexShaderFile);
+	free(fragmentShaderFile);
 	
 	return true;
 }
@@ -139,7 +141,7 @@ update_status ModuleProgram::Update()
 // Called before quitting
 bool ModuleProgram::CleanUp()
 {
-	LOG("Destroying program");
+	//LOG("Destroying program");
 
 	glDeleteProgram(program_id);
 

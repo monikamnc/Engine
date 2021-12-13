@@ -18,8 +18,22 @@ enum main_states
 
 Application* App = NULL;
 
-int main(int argc, char ** argv)
+#ifdef _DEBUG
+#define MYDEBUG_NEW new( _NORMAL_BLOCK, __FILE__, __LINE__)
+#endif // _DEBUG
+#define _CRTDBG_MAP_ALLOC
+#include <cstdlib>
+#include <crtdbg.h>
+#ifdef _DEBUG
+#define new MYDEBUG_NEW
+#endif
+void DumpLeaks(void)
 {
+	_CrtDumpMemoryLeaks(); // show leaks with file and line where allocation was made
+}
+int main(int argc, char** argv)
+{
+	atexit(DumpLeaks);
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
 
@@ -70,7 +84,7 @@ int main(int argc, char ** argv)
 			LOG("Application CleanUp --------------");
 			if (App->CleanUp() == false)
 			{
-				LOG("Application CleanUp exits with error -----");
+				//LOG("Application CleanUp exits with error -----");
 			}
 			else
 				main_return = EXIT_SUCCESS;
@@ -83,7 +97,7 @@ int main(int argc, char ** argv)
 
 	}
 
-	LOG("Bye :)\n");
+	//LOG("Bye :)\n");
 	delete App;
 	return main_return;
 }

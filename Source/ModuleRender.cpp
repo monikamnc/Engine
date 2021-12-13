@@ -121,7 +121,7 @@ bool ModuleRender::Init()
 	//	return false;
 	//}
 
-	modelToRender.Load("Game/BakerHouse.fbx");
+	modelToRender.Load("BakerHouse.fbx");
 
 	return true;
 
@@ -178,7 +178,7 @@ update_status ModuleRender::PostUpdate()
 // Called before quitting
 bool ModuleRender::CleanUp()
 {
-	LOG("Destroying renderer");
+	//LOG("Destroying renderer");
 
 	glDeleteBuffers(1, &vboTri);
 

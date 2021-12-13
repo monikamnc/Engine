@@ -24,10 +24,10 @@ Application::Application()
 	//modules.push_back(renderExercise = new ModuleRenderExercise());
 	modules.push_back(debugDraw = new ModuleDebugDraw());
 	modules.push_back(input = new ModuleInput());
-	modules.push_back(editor = new ModuleEditor());
 	modules.push_back(camera = new ModuleCamera());
 	modules.push_back(program = new ModuleProgram());
-	LOG("Application ha tardado %i en cargar los modulos", tiempo);
+	modules.push_back(editor = new ModuleEditor());
+	//LOG("Application ha tardado %i en cargar los modulos", tiempo);
 	//App->editor->setConsole("Application ha tardado %i en cargar los modulos");
 }
 

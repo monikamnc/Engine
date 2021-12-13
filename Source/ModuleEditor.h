@@ -17,7 +17,7 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	inline std::vector<const char*> getConsole();
+	inline std::vector<char*> getConsole();
 	inline void setConsole(char value[]);
 	inline void setModelPath(char value[]);
 	inline void setTexturePath(char value[]);
@@ -39,26 +39,27 @@ private:
 	float frameRate = 0;
 	std::vector<float> fps;
 	std::vector<float> ms;
-	std::vector<const char*> console;
+	std::vector<char*> console;
 
 	char modelPath[255];
 	char texturePath[255];
 	int numMeshes;
 	int numTextures;
 	unsigned texture;
-	AABB* aabb;
-	OBB* obb;
+	//AABB* aabb;
+	//OBB* obb;
 };
 
-inline std::vector<const char*> ModuleEditor::getConsole()
+inline std::vector<char*> ModuleEditor::getConsole()
 {
 	return console;
 }
 
 inline void ModuleEditor::setConsole(char value[])
 {
-	char* stringLog = new char[strlen(value)];
+	char* stringLog = new char[strlen(value) + 1];
 	strcpy(stringLog, value);
+	stringLog[strlen(value)] = '\0';
 	console.push_back(stringLog);
 }
 
