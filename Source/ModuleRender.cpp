@@ -9,6 +9,7 @@
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
+#include "optick.h"
 
 ModuleRender::ModuleRender()
 {
@@ -171,7 +172,7 @@ update_status ModuleRender::Update()
 update_status ModuleRender::PostUpdate()
 {
 	SDL_GL_SwapWindow(App->window->window);
-
+	OPTICK_CATEGORY("ModuleRender::PostUpdate", Optick::Category::Rendering);
 	return UPDATE_CONTINUE;
 }
 

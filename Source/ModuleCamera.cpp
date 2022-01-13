@@ -3,6 +3,7 @@
 #include "ModuleProgram.h"
 #include "ModuleInput.h"
 #include "ModuleWindow.h"
+#include "optick.h"
 #define DEGTORAD pi / 180.0
 
 ModuleCamera::ModuleCamera()
@@ -124,7 +125,7 @@ update_status ModuleCamera::Update()
 
 update_status ModuleCamera::PostUpdate()
 {
-
+	OPTICK_CATEGORY("ModuleCamera::PostUpdate", Optick::Category::Rendering);
 	return UPDATE_CONTINUE;
 }
 
